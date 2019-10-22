@@ -1,31 +1,32 @@
 package dev.threepebbles.datalabeler.presenter;
 
+import android.app.Activity;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dev.threepebbles.datalabeler.contact.MainContract;
+import dev.threepebbles.datalabeler.model.DataLabel;
+import dev.threepebbles.datalabeler.view.MainActivity;
 
-public class MainActivityPresenter implements MainContract.Presenter {
-    private static final String TAG = "MainActivityPresenter";
+public class MainActivityPresenter {
+    private Activity context;
 
-    MainContract.View mainView;
-    String data;
-
-    public MainActivityPresenter(MainContract.View mainView){
-        this.mainView = mainView;
+    public MainActivityPresenter(Activity context) {
+        this.context = context;
     }
 
-    public void updateTextView(String data){
-        Log.d(TAG, "updateTextView: Data is:" + data);
+    public List<DataLabel> getDataLabels() {
+        List<DataLabel> dataLabels = new ArrayList<>();
+        dataLabels.add(new DataLabel());
+        dataLabels.add(new DataLabel());
+        dataLabels.add(new DataLabel());
+        dataLabels.add(new DataLabel());
+        dataLabels.add(new DataLabel());
+        dataLabels.add(new DataLabel());
+        dataLabels.add(new DataLabel());
 
-        if(data.matches(""))
-            this.data = "ERROR";
-        else
-            this.data = data;
-        this.mainView.updateTextView(data);
+        return dataLabels;
     }
-
-    public void clearTextView(){
-
-    }
-
 }
