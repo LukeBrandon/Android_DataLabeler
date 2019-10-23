@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.LabelActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.Default" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

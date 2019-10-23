@@ -1,51 +1,55 @@
 package dev.threepebbles.datalabeler.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.contact.MainContract;
+import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.presenter.MainActivityPresenter;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View {
-
-    MainActivityPresenter mainActivityPresenter;
-    TextView tvText;
-    EditText etEdit;
-    Button btnSetText;
+public class MainActivity extends AppCompatActivity {
+    private MainActivityPresenter presenter;
+    private RecyclerView recyclerView;
+    private ItemAdapter adapter;
+    private List<DataLabel> dataLabels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainActivityPresenter = new MainActivityPresenter(this);
+        presenter = new MainActivityPresenter(this);
 
-        initUiComponents();
+        dataLabels = presenter.getDataLabels();
+
+        initializeRecyclerView();
     }
 
-    private void initUiComponents(){
-        this.tvText = findViewById(R.id.tvText);
-        this.etEdit = findViewById(R.id.etEdit);
-        this.btnSetText = findViewById(R.id.btnSetText);
+    private void initializeRecyclerView() {
+        recyclerView = findViewById(R.id.labelItems);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
 
-        this.btnSetText.setOnClickListener( v -> {
-            mainActivityPresenter.updateTextView(this.etEdit.getText().toString());
+        adapter = new ItemAdapter(this, dataLabels, position -> {
+            Intent intent = new Intent(this, LabelActivity.class);
+//            int id = dataLabels.get(position).getId();
+//            intent.putExtra("id", id);
+
+            startActivity(intent);
         });
 
+        recyclerView.setAdapter(adapter);
     }
-
-    public void updateTextView(String data){
-        this.tvText.setText(data);
-    }
-
-    public void clearTextView(){
-        this.tvText.setText("");
-    }
-
-
 }
