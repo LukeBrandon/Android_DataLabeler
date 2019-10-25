@@ -6,16 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import java.util.ArrayList;
+import android.widget.ImageButton;
 import java.util.List;
 
 import dev.threepebbles.datalabeler.R;
-import dev.threepebbles.datalabeler.contact.MainContract;
 import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.presenter.MainActivityPresenter;
 
@@ -24,11 +18,18 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ItemAdapter adapter;
     private List<DataLabel> dataLabels;
+    private ImageButton settingButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        settingButton = findViewById(R.id.settingsButton);
+        settingButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        });
 
         presenter = new MainActivityPresenter(this);
 
