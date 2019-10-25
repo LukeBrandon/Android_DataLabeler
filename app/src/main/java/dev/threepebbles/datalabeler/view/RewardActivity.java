@@ -10,6 +10,6 @@ public class RewardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedBundleInstance) {
         super.onCreate(savedBundleInstance);
-        setContentView(R.layout.reward_layout);
+        setContentView(R.layout.activity_reward);
     }
 }

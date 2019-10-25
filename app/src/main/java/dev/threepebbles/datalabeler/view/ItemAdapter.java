@@ -43,7 +43,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
     public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(context)
-                .inflate(R.layout.label_item, parent, false);
+                .inflate(R.layout.item_label, parent, false);
 
         return new ItemHolder(view, onItemListener);
     }
