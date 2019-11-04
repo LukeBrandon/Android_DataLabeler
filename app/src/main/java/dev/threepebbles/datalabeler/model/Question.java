@@ -22,7 +22,7 @@ public class Question implements Parcelable{
 
     public Question(Parcel in){
         this.title = in.readString();
-        this.answers = new ArrayList<String>();
+        this.answers = new ArrayList<>();
         in.readStringList(this.answers);
     }
 

@@ -3,6 +3,9 @@ package dev.threepebbles.datalabeler.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,13 +22,18 @@ public class LabelActivity extends AppCompatActivity {
     TextView questionTitle;
     DataLabel data;
     ArrayList<Question> questions;
+    int questionIndex;
+
+    RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label);
 
-        this.questionTitle =findViewById(R.id.questionTitle);
+        this.questionIndex = 0;
+        this.questionTitle = findViewById(R.id.questionTitle);
+        this.radioGroup = findViewById(R.id.radioGroup);
 
         init();
     }
@@ -35,7 +43,24 @@ public class LabelActivity extends AppCompatActivity {
         data = intent.getParcelableExtra("DataLabel");
         this.questions = data.getQuestions();
 
-        // Just for testing
-        this.questionTitle.setText(this.questions.get(0).getTitle());
+
+        updateUIForQuestionIndex();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+    }
+
+    private void updateUIForQuestionIndex(){
+        this.questionTitle.setText(this.questions.get(questionIndex).getTitle());
+        for(int i = 0; i < this.questions.get(questionIndex).getAnswers().size(); i ++){
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setId(View.generateViewId());
+            radioButton.setText(this.questions.get(questionIndex).getAnswers().get(i));
+
+            this.radioGroup.addView(radioButton);
+        }
     }
 }
