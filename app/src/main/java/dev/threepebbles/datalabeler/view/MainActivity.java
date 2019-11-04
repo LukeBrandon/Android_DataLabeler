@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.presenter.MainActivityPresenter;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+    
     private MainActivityPresenter presenter;
     private RecyclerView recyclerView;
     private ItemAdapter adapter;
@@ -38,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
         initializeRecyclerView();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        // Read in the data from the model somewhere
+        dataLabels = presenter.getDataLabels();
+        adapter.notifyDataSetChanged();
+
+    }
+
     private void initializeRecyclerView() {
         recyclerView = findViewById(R.id.labelItems);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -45,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ItemAdapter(this, dataLabels, position -> {
             Intent intent = new Intent(this, LabelActivity.class);
-//            int id = dataLabels.get(position).getId();
-//            intent.putExtra("id", id);
+            intent.putExtra("DataLabel", dataLabels.get(position));
 
             startActivity(intent);
         });

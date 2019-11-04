@@ -8,6 +8,7 @@ import java.util.List;
 
 import dev.threepebbles.datalabeler.contact.MainContract;
 import dev.threepebbles.datalabeler.model.DataLabel;
+import dev.threepebbles.datalabeler.model.Question;
 import dev.threepebbles.datalabeler.view.MainActivity;
 
 public class MainActivityPresenter {
@@ -17,15 +18,13 @@ public class MainActivityPresenter {
         this.context = context;
     }
 
+    // This has fake data, should come from the server
     public List<DataLabel> getDataLabels() {
         List<DataLabel> dataLabels = new ArrayList<>();
-        dataLabels.add(new DataLabel());
-        dataLabels.add(new DataLabel());
-        dataLabels.add(new DataLabel());
-        dataLabels.add(new DataLabel());
-        dataLabels.add(new DataLabel());
-        dataLabels.add(new DataLabel());
-        dataLabels.add(new DataLabel());
+        ArrayList<Question> questions = new ArrayList<>();
+        questions.add(new Question("Can anyone hear me??", Question.Type.MULTIPLE_CHOICE));
+
+        dataLabels.add(new DataLabel("Animals", questions));
 
         return dataLabels;
     }
