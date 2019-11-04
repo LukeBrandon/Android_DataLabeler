@@ -24,6 +24,7 @@ public class MainActivityPresenter {
         ArrayList<Question> questions = new ArrayList<>();
         questions.add(new Question("Can anyone hear me??", Question.Type.MULTIPLE_CHOICE));
 
+        // Sample datalabel, should be gotten from the server
         dataLabels.add(new DataLabel("Animals", questions, "Sample Description", 69.69));
 
         return dataLabels;

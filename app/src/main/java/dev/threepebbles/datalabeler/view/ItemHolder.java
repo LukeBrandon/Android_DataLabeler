@@ -25,8 +25,8 @@ public class ItemHolder extends RecyclerView.ViewHolder {
 
     public void setItemDetails(DataLabel dataLabel) {
         // Add in when things are implemented
-//        this.itemTitle.setText(dataLabel.getTitle());
-//        this.itemTitle.setText(dataLabel.getDescription());
-//        this.itemTitle.setText(dataLabel.getValue());
+        this.itemTitle.setText(dataLabel.getCategoryName());
+        this.itemDescription.setText(dataLabel.getDescription());
+        this.itemValue.setText(Double.toString(dataLabel.getValue()));
     }
 }
