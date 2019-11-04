@@ -28,13 +28,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        presenter = new MainActivityPresenter(this);
+
         settingButton = findViewById(R.id.settingsButton);
         settingButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         });
-
-        presenter = new MainActivityPresenter(this);
 
         dataLabels = presenter.getDataLabels();
 

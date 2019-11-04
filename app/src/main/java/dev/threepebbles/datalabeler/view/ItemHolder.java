@@ -9,9 +9,9 @@ import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.model.DataLabel;
 
 public class ItemHolder extends RecyclerView.ViewHolder {
-    private TextView itemTitle;
-    private TextView itemDescription;
-    private TextView itemValue;
+    public TextView itemTitle;
+    public TextView itemDescription;
+    public TextView itemValue;
 
     public ItemHolder(View itemView, ItemAdapter.OnItemListener onItemListener) {
         super(itemView);

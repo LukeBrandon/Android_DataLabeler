@@ -24,7 +24,7 @@ public class MainActivityPresenter {
         ArrayList<Question> questions = new ArrayList<>();
         questions.add(new Question("Can anyone hear me??", Question.Type.MULTIPLE_CHOICE));
 
-        dataLabels.add(new DataLabel("Animals", questions));
+        dataLabels.add(new DataLabel("Animals", questions, "Sample Description", 69.69));
 
         return dataLabels;
     }

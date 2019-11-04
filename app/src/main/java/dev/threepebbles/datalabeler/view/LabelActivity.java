@@ -53,6 +53,10 @@ public class LabelActivity extends AppCompatActivity {
 
     }
 
+    /*
+     * Updates the questionTitle, and radio buttons based on questionIndex
+     *      - If going to next question, should update the UI to show next question
+     */
     private void updateUIForQuestionIndex(){
         this.questionTitle.setText(this.questions.get(questionIndex).getTitle());
         for(int i = 0; i < this.questions.get(questionIndex).getAnswers().size(); i ++){

@@ -31,6 +31,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
     public void onBindViewHolder(@NonNull ItemHolder itemHolder, int position) {
         DataLabel dataLabel = dataLabels.get(position);
         itemHolder.setItemDetails(dataLabel);
+        itemHolder.itemTitle.setText(dataLabel.getCategoryName());
+        itemHolder.itemDescription.setText(dataLabel.getDescription());
+        itemHolder.itemValue.setText(Double.toString(dataLabel.getValue()));
     }
 
     @Override
