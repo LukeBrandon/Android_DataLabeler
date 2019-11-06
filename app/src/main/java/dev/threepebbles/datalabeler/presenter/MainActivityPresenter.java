@@ -33,6 +33,7 @@ public class MainActivityPresenter implements MainContract.Presenter{
     public List<DataLabel> getDataLabels() {
         List<DataLabel> dataLabels = new ArrayList<>();
 
+        // Callback for the HTTP request to get the datalabels
         Callback callback = new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -42,21 +43,17 @@ public class MainActivityPresenter implements MainContract.Presenter{
 
             @Override
             public void onResponse(Response response) throws IOException {
-                String message = response.body().string();
-                
+                String stringResponse = response.body().string();
+
                 try {
-                    JSONArray jsonArray = new JSONArray(message);
+                    // Create the DataLabel ArrayList from the JSON object using json unmarshal constructors
+                    JSONArray jsonArray = new JSONArray(stringResponse);
                     for(int i =0; i < jsonArray.length(); i++){
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        DataLabel dataLabel = new DataLabel(jsonObject);
-                        dataLabels.add(dataLabel);
+                        dataLabels.add(new DataLabel(jsonArray.getJSONObject(i)));
                     }
                 } catch (JSONException e){
                     Log.d(TAG, "onResponse: JSON Parse failure");
                 }
-
-                Log.d(TAG, "onResponse: success, dataLabels object is: " + dataLabels.toString());
-                // need to call updateDataLabels method here, for async goodness
             }
         };
 
@@ -67,7 +64,7 @@ public class MainActivityPresenter implements MainContract.Presenter{
 
     }
 
-    public void getHttpResponse(String url, Callback callback) {
+    private void getHttpResponse(String url, Callback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
