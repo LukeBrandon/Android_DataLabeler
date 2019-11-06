@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -60,8 +61,11 @@ public class LabelActivity extends AppCompatActivity {
     private void updateUIForQuestionIndex(){
         this.questionTitle.setText(this.questions.get(questionIndex).getTitle());
         for(int i = 0; i < this.questions.get(questionIndex).getAnswers().size(); i ++){
+            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 15, 0, 15);
             RadioButton radioButton = new RadioButton(this);
             radioButton.setId(View.generateViewId());
+            radioButton.setLayoutParams(params);
             radioButton.setText(this.questions.get(questionIndex).getAnswers().get(i));
 
             this.radioGroup.addView(radioButton);

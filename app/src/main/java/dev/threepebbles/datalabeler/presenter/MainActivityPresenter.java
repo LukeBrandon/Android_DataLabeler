@@ -11,7 +11,7 @@ import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.model.Question;
 import dev.threepebbles.datalabeler.view.MainActivity;
 
-public class MainActivityPresenter {
+public class MainActivityPresenter implements MainContract.Presenter{
     private Activity context;
 
     public MainActivityPresenter(Activity context) {
@@ -21,12 +21,28 @@ public class MainActivityPresenter {
     // This has fake data, should come from the server
     public List<DataLabel> getDataLabels() {
         List<DataLabel> dataLabels = new ArrayList<>();
-        ArrayList<Question> questions = new ArrayList<>();
-        questions.add(new Question("Can anyone hear me??", Question.Type.MULTIPLE_CHOICE));
 
-        // Sample datalabel, should be gotten from the server
+        ArrayList<Question> questions = new ArrayList<>();
+        questions.add(new Question("Is this an animal?", Question.Type.MULTIPLE_CHOICE));
+
+        ArrayList<Question> trafficQuestions = new ArrayList<>();
+        trafficQuestions.add(new Question("Is this a traffic light?", Question.Type.MULTIPLE_CHOICE));
+
+        ArrayList<Question> whiteQuestions = new ArrayList<>();
+        whiteQuestions.add(new Question("Is this guy white?", Question.Type.MULTIPLE_CHOICE));
+
+        ArrayList<Question> asianQuestions = new ArrayList<>();
+        asianQuestions.add(new Question("Is this an asian man?", Question.Type.MULTIPLE_CHOICE));
+
+
+
         dataLabels.add(new DataLabel("Animals", questions, "Sample Description", 69.69));
+        dataLabels.add(new DataLabel("Traffic Signs", trafficQuestions, "Traffic signs description", 420.69));
+        dataLabels.add(new DataLabel("White people", whiteQuestions, "White description", 420.00));
+        dataLabels.add(new DataLabel("Asians", asianQuestions, "Asian description", 69.42));
+
 
         return dataLabels;
     }
+
 }

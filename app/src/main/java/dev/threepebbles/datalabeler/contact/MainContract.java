@@ -1,17 +1,19 @@
 package dev.threepebbles.datalabeler.contact;
 
+import java.util.List;
+
+import dev.threepebbles.datalabeler.model.DataLabel;
+
 public interface MainContract {
 
     interface View {
-        void updateTextView(String data);
 
         void clearTextView();
     }
 
     interface Presenter {
-        void updateTextView(String data);
 
-        void clearTextView();
+        List<DataLabel> getDataLabels();
+
     }
-
 }
