@@ -60,9 +60,13 @@ public class LabelActivity extends AppCompatActivity {
      */
     private void updateUIForQuestionIndex(){
         this.questionTitle.setText(this.questions.get(questionIndex).getTitle());
+
+        // Defines the margins that are going to be applied to all of the radio buttons
+        RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 15, 0, 15);
+
         for(int i = 0; i < this.questions.get(questionIndex).getAnswers().size(); i ++){
-            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 15, 0, 15);
+
             RadioButton radioButton = new RadioButton(this);
             radioButton.setId(View.generateViewId());
             radioButton.setLayoutParams(params);

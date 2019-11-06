@@ -22,17 +22,21 @@ public class MainActivityPresenter implements MainContract.Presenter{
     public List<DataLabel> getDataLabels() {
         List<DataLabel> dataLabels = new ArrayList<>();
 
+        ArrayList<String> answersYesNo = new ArrayList<>();
+        answersYesNo.add("Yes");
+        answersYesNo.add("No");
+
         ArrayList<Question> questions = new ArrayList<>();
-        questions.add(new Question("Is this an animal?", Question.Type.MULTIPLE_CHOICE));
+        questions.add(new Question("Is this an animal?", Question.Type.MULTIPLE_CHOICE, answersYesNo));
 
         ArrayList<Question> trafficQuestions = new ArrayList<>();
-        trafficQuestions.add(new Question("Is this a traffic light?", Question.Type.MULTIPLE_CHOICE));
+        trafficQuestions.add(new Question("Is this a traffic light?", Question.Type.MULTIPLE_CHOICE, answersYesNo));
 
         ArrayList<Question> whiteQuestions = new ArrayList<>();
-        whiteQuestions.add(new Question("Is this guy white?", Question.Type.MULTIPLE_CHOICE));
+        whiteQuestions.add(new Question("Is this guy white?", Question.Type.MULTIPLE_CHOICE, answersYesNo));
 
         ArrayList<Question> asianQuestions = new ArrayList<>();
-        asianQuestions.add(new Question("Is this an asian man?", Question.Type.MULTIPLE_CHOICE));
+        asianQuestions.add(new Question("Is this an asian man?", Question.Type.MULTIPLE_CHOICE, answersYesNo));
 
 
 

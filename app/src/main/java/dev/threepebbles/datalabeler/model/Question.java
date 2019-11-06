@@ -11,13 +11,10 @@ public class Question implements Parcelable{
     Type type;
     ArrayList<String> answers;
 
-    public Question(String title, Type type){
+    public Question(String title, Type type, ArrayList<String> answers){
         this.title = title;
         this.type = type;
-        this.answers = new ArrayList<>();
-        answers.add("Poopy 1");
-        answers.add("Poopy 2");
-        answers.add("Poopy 3");
+        this.answers = answers;
     }
 
     public Question(Parcel in){
@@ -34,6 +31,9 @@ public class Question implements Parcelable{
         return title;
     }
 
+    public void setAnswers(ArrayList<String> answers) {
+        this.answers = answers;
+    }
 
     public enum Type{
         MULTIPLE_CHOICE,
