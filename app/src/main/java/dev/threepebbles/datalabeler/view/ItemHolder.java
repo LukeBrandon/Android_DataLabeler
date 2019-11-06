@@ -9,6 +9,8 @@ import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.model.DataLabel;
 
 public class ItemHolder extends RecyclerView.ViewHolder {
+    private static final String TAG = "ItemHolder";
+    
     private TextView itemTitle;
     private TextView itemDescription;
     private TextView itemValue;

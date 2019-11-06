@@ -1,6 +1,5 @@
 package dev.threepebbles.datalabeler.presenter;
 
-import android.app.Activity;
 import android.util.Log;
 
 import com.squareup.okhttp.Call;
@@ -9,6 +8,10 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,18 +19,20 @@ import java.util.List;
 import dev.threepebbles.datalabeler.contact.MainContract;
 import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.model.Question;
-import dev.threepebbles.datalabeler.view.MainActivity;
 
 public class MainActivityPresenter implements MainContract.Presenter{
-    private Activity context;
+    private static final String TAG = "MainActivityPresenter";
 
-    public MainActivityPresenter(Activity context) {
-        this.context = context;
+    private MainContract.View view;
+
+    public MainActivityPresenter(MainContract.View view) {
+        this.view = view;
     }
 
-    // This has fake data, should come from the server
+    // This has fake data, should make requests to the server
     public List<DataLabel> getDataLabels() {
         List<DataLabel> dataLabels = new ArrayList<>();
+
         Callback callback = new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -38,36 +43,28 @@ public class MainActivityPresenter implements MainContract.Presenter{
             @Override
             public void onResponse(Response response) throws IOException {
                 String message = response.body().string();
-                Log.e("success_message", message);
+                
+                try {
+                    JSONArray jsonArray = new JSONArray(message);
+                    for(int i =0; i < jsonArray.length(); i++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        DataLabel dataLabel = new DataLabel(jsonObject);
+                        dataLabels.add(dataLabel);
+                    }
+                } catch (JSONException e){
+                    Log.d(TAG, "onResponse: JSON Parse failure");
+                }
+
+                Log.d(TAG, "onResponse: success, dataLabels object is: " + dataLabels.toString());
+                // need to call updateDataLabels method here, for async goodness
             }
         };
 
+        // Get dataLabels from server
         getHttpResponse("https://vast-taiga-78775.herokuapp.com/labels", callback);
 
-
-//        ArrayList<String> answersYesNo = new ArrayList<>();
-//        answersYesNo.add("Yes");
-//        answersYesNo.add("No");
-//
-//        ArrayList<Question> questions = new ArrayList<>();
-//        questions.add(new Question("Is this an animal?", Question.Type.MULTIPLE_CHOICE, answersYesNo));
-//
-//        ArrayList<Question> trafficQuestions = new ArrayList<>();
-//        trafficQuestions.add(new Question("Is this a traffic light?", Question.Type.MULTIPLE_CHOICE, answersYesNo));
-//
-//        ArrayList<Question> whiteQuestions = new ArrayList<>();
-//        whiteQuestions.add(new Question("Is this guy white?", Question.Type.MULTIPLE_CHOICE, answersYesNo));
-//
-//        ArrayList<Question> asianQuestions = new ArrayList<>();
-//        asianQuestions.add(new Question("Is this an asian man?", Question.Type.MULTIPLE_CHOICE, answersYesNo));
-//
-//        dataLabels.add(new DataLabel("Animals", questions, "Sample Description", 69.69));
-//        dataLabels.add(new DataLabel("Traffic Signs", trafficQuestions, "Traffic signs description", 420.69));
-//        dataLabels.add(new DataLabel("White people", whiteQuestions, "White description", 420.00));
-//        dataLabels.add(new DataLabel("Asians", asianQuestions, "Asian description", 69.42));
-
-
         return dataLabels;
+
     }
 
     public void getHttpResponse(String url, Callback callback) {

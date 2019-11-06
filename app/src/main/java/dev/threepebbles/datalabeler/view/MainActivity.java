@@ -8,16 +8,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.threepebbles.datalabeler.R;
+import dev.threepebbles.datalabeler.contact.MainContract;
 import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.presenter.MainActivityPresenter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainContract.View {
     private static final String TAG = "MainActivity";
     
-    private MainActivityPresenter presenter;
+    private MainContract.Presenter presenter;
     private RecyclerView recyclerView;
     private ItemAdapter adapter;
     private List<DataLabel> dataLabels;
@@ -63,5 +66,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(adapter);
+    }
+
+    public void updateDataLabels(List<DataLabel> dataLabels){
+        this.dataLabels = dataLabels;
+        adapter.notifyDataSetChanged();
     }
 }

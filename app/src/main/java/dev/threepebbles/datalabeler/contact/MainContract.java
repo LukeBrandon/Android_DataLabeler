@@ -8,7 +8,7 @@ public interface MainContract {
 
     interface View {
 
-        void clearTextView();
+        void updateDataLabels(List<DataLabel> dataLabels);
     }
 
     interface Presenter {

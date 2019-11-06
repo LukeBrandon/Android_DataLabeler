@@ -2,11 +2,17 @@ package dev.threepebbles.datalabeler.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataLabel implements Parcelable {
+    private static final String TAG = "DataLabel";
 
     String categoryName;
     String description;
@@ -31,6 +37,26 @@ public class DataLabel implements Parcelable {
         this.questions = in.createTypedArrayList(Question.CREATOR);
         this.description = in.readString();
         this.value = in.readDouble();
+    }
+
+    public DataLabel(JSONObject jsonObject){
+        try{
+            this.categoryName = jsonObject.getString("categoryName");
+            this.description = jsonObject.getString("description");
+            this.value = jsonObject.getDouble("value");
+
+            // Unmarshal the questions from the JSON object
+            ArrayList<Question> questionsFromJson = new ArrayList<>();
+            JSONArray questionsArray = jsonObject.getJSONArray("questions");
+            for(int i =0; i < questionsArray.length(); i++){
+                questionsFromJson.add(new Question(questionsArray.getJSONObject(i)));
+            }
+
+            this.questions = questionsFromJson;
+        } catch (JSONException e){
+            Log.d(TAG, "DataLabel: JSON Object Creatiion Failure");
+        }
+        this.questions = questions;
     }
 
     public ArrayList<Question> getQuestions() {
