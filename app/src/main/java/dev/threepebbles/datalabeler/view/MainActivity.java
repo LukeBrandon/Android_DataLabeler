@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onResume(){
         super.onResume();
         // Get the data to be displayed
-        //presenter.getDataLabels();
+        presenter.getDataLabels();
     }
 
     private void initializeRecyclerView() {
