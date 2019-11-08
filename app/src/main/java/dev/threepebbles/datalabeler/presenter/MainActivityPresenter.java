@@ -2,7 +2,6 @@ package dev.threepebbles.datalabeler.presenter;
 
 import android.util.Log;
 
-import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -10,7 +9,6 @@ import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,8 +23,8 @@ public class MainActivityPresenter implements MainContract.Presenter{
 
     private MainActivity view;
 
-    public MainActivityPresenter(MainActivity view) {
-        this.view = view;
+    public MainActivityPresenter(MainActivity activity) {
+        this.view = activity;
     }
 
     // This has fake data, should make requests to the server
@@ -42,30 +40,26 @@ public class MainActivityPresenter implements MainContract.Presenter{
 
             @Override
             public void onResponse(Response response) throws IOException {
-                if(response.isSuccessful()) {
-                    String message = response.body().string();
+                String message = response.body().string();
 
-                    try {
-                        JSONArray jsonArray = new JSONArray(message);
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            dataLabels.add(new DataLabel(jsonArray.getJSONObject(i)));
-                        }
+                Log.d(TAG, "onResponse: response received");
 
-                        // Updating UI elements has to be on the UI thread
-                        view.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run(){
-                                view.updateDataLabels(dataLabels);
-                            }
-                        });
-
-                    } catch (JSONException e) {
-                        Log.d(TAG, "onResponse: JSON Parse failure");
+                try {
+                    JSONArray jsonArray = new JSONArray(message);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        dataLabels.add(new DataLabel(jsonArray.getJSONObject(i)));
                     }
 
-                } else {
-                    Log.d(TAG, "onResponse: getLabels response not successful");
+                } catch (JSONException e) {
+                    Log.w(TAG, "onResponse: JSON Parse failure");
                 }
+
+                view.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run(){
+                        view.updateDataLabels(dataLabels);
+                    }
+                });
             }
         };
 

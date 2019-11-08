@@ -39,16 +39,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             startActivity(intent);
         });
 
-        // This should be erroring but for some reason its not????
         this.dataLabels = presenter.getDataLabels();
         initializeRecyclerView();
+
     }
 
     @Override
     protected void onResume(){
         super.onResume();
         // Get the data to be displayed
-        presenter.getDataLabels();
+        //presenter.getDataLabels();
     }
 
     private void initializeRecyclerView() {
@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
      public void updateDataLabels(List<DataLabel> labels) {
-        this.dataLabels = labels;
-        this.adapter.notifyDataSetChanged();
+        dataLabels = labels;
+        adapter.notifyDataSetChanged();
     }
 
 }
