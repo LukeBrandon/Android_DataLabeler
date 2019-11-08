@@ -20,10 +20,10 @@ import dev.threepebbles.datalabeler.presenter.MainActivityPresenter;
 public class MainActivity extends AppCompatActivity implements MainContract.View {
     private static final String TAG = "MainActivity";
     
-    private MainContract.Presenter presenter;
+    private MainActivityPresenter presenter;
     private RecyclerView recyclerView;
-    private ItemAdapter adapter;
-    private List<DataLabel> dataLabels;
+    public ItemAdapter adapter;
+    public List<DataLabel> dataLabels;
     private ImageButton settingButton;
 
     @Override
@@ -39,18 +39,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             startActivity(intent);
         });
 
-        dataLabels = presenter.getDataLabels();
-
+        // This should be erroring but for some reason its not????
+        this.dataLabels = presenter.getDataLabels();
         initializeRecyclerView();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        // Read in the data from the model somewhere
-        dataLabels = presenter.getDataLabels();
-        adapter.notifyDataSetChanged();
-
+        // Get the data to be displayed
+        presenter.getDataLabels();
     }
 
     private void initializeRecyclerView() {
@@ -68,8 +66,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         recyclerView.setAdapter(adapter);
     }
 
-    public void updateDataLabels(List<DataLabel> dataLabels){
-        this.dataLabels = dataLabels;
-        adapter.notifyDataSetChanged();
+     public void updateDataLabels(List<DataLabel> labels) {
+        this.dataLabels = labels;
+        this.adapter.notifyDataSetChanged();
     }
+
 }

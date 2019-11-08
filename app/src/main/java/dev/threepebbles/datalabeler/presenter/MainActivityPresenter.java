@@ -18,14 +18,14 @@ import java.util.List;
 
 import dev.threepebbles.datalabeler.contact.MainContract;
 import dev.threepebbles.datalabeler.model.DataLabel;
-import dev.threepebbles.datalabeler.model.Question;
+import dev.threepebbles.datalabeler.view.MainActivity;
 
 public class MainActivityPresenter implements MainContract.Presenter{
     private static final String TAG = "MainActivityPresenter";
 
-    private MainContract.View view;
+    private MainActivity view;
 
-    public MainActivityPresenter(MainContract.View view) {
+    public MainActivityPresenter(MainActivity view) {
         this.view = view;
     }
 
@@ -33,7 +33,6 @@ public class MainActivityPresenter implements MainContract.Presenter{
     public List<DataLabel> getDataLabels() {
         List<DataLabel> dataLabels = new ArrayList<>();
 
-        // Callback for the HTTP request to get the datalabels
         Callback callback = new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -43,16 +42,29 @@ public class MainActivityPresenter implements MainContract.Presenter{
 
             @Override
             public void onResponse(Response response) throws IOException {
-                String stringResponse = response.body().string();
+                if(response.isSuccessful()) {
+                    String message = response.body().string();
 
-                try {
-                    // Create the DataLabel ArrayList from the JSON object using json unmarshal constructors
-                    JSONArray jsonArray = new JSONArray(stringResponse);
-                    for(int i =0; i < jsonArray.length(); i++){
-                        dataLabels.add(new DataLabel(jsonArray.getJSONObject(i)));
+                    try {
+                        JSONArray jsonArray = new JSONArray(message);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            dataLabels.add(new DataLabel(jsonArray.getJSONObject(i)));
+                        }
+
+                        // Updating UI elements has to be on the UI thread
+                        view.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run(){
+                                view.updateDataLabels(dataLabels);
+                            }
+                        });
+
+                    } catch (JSONException e) {
+                        Log.d(TAG, "onResponse: JSON Parse failure");
                     }
-                } catch (JSONException e){
-                    Log.d(TAG, "onResponse: JSON Parse failure");
+
+                } else {
+                    Log.d(TAG, "onResponse: getLabels response not successful");
                 }
             }
         };
