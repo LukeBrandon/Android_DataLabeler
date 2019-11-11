@@ -36,10 +36,10 @@ public class LabelActivity extends AppCompatActivity {
         this.questionTitle = findViewById(R.id.questionTitle);
         this.radioGroup = findViewById(R.id.radioGroup);
 
-        init();
+        getDataFromIntent();
     }
 
-    private void init(){
+    private void getDataFromIntent(){
         Intent intent = getIntent();
         data = intent.getParcelableExtra(MainActivity.DATA_LABEL_INTENT_TAG);
         this.questions = data.getQuestions();

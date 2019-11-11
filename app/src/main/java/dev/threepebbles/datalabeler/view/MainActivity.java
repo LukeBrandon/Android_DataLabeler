@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     protected void onResume(){
+        // TODO: This does not get the newest stuff from the server
         super.onResume();
         // Get the data to be displayed
         this.dataLabels = presenter.getDataLabels();
