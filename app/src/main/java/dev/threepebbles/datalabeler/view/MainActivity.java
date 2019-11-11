@@ -19,6 +19,7 @@ import dev.threepebbles.datalabeler.presenter.MainActivityPresenter;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
     private static final String TAG = "MainActivity";
+    public static final String DATA_LABEL_INTENT_TAG = "DataLabel";
     
     private MainActivityPresenter presenter;
     private RecyclerView recyclerView;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onResume(){
         super.onResume();
         // Get the data to be displayed
-        presenter.getDataLabels();
+        this.dataLabels = presenter.getDataLabels();
     }
 
     private void initializeRecyclerView() {
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         adapter = new ItemAdapter(this, dataLabels, position -> {
             Intent intent = new Intent(this, LabelActivity.class);
-            intent.putExtra("DataLabel", dataLabels.get(position));
+            intent.putExtra(DATA_LABEL_INTENT_TAG, dataLabels.get(position));
 
             startActivity(intent);
         });
@@ -67,8 +68,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
      public void updateDataLabels(List<DataLabel> labels) {
-        dataLabels = labels;
-        adapter.notifyDataSetChanged();
+         Log.d(TAG, "updateDataLabels: calling updateDataLabels");
+        this.dataLabels = labels;
+        this.adapter.notifyDataSetChanged();
     }
 
 }

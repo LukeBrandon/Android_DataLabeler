@@ -41,7 +41,7 @@ public class LabelActivity extends AppCompatActivity {
 
     private void init(){
         Intent intent = getIntent();
-        data = intent.getParcelableExtra("DataLabel");
+        data = intent.getParcelableExtra(MainActivity.DATA_LABEL_INTENT_TAG);
         this.questions = data.getQuestions();
 
 
