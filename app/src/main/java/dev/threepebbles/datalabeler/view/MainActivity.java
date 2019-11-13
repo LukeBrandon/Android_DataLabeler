@@ -40,8 +40,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             startActivity(intent);
         });
 
-        this.dataLabels = presenter.getDataLabels();
         initializeRecyclerView();
+        presenter.getDataLabels();
+        Log.d(TAG, "onCreate: set DataLabels to: " + dataLabels);
 
     }
 
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         // TODO: This does not get the newest stuff from the server
         super.onResume();
         // Get the data to be displayed
-        this.dataLabels = presenter.getDataLabels();
+        presenter.getDataLabels();
+        //this.adapter.notifyDataSetChanged();
     }
 
     private void initializeRecyclerView() {
@@ -58,20 +60,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new ItemAdapter(this, dataLabels, position -> {
-            Intent intent = new Intent(this, LabelActivity.class);
-            intent.putExtra(DATA_LABEL_INTENT_TAG, dataLabels.get(position));
-
-            startActivity(intent);
-        });
-
-        recyclerView.setAdapter(adapter);
     }
 
      public void updateDataLabels(List<DataLabel> labels) {
-         Log.d(TAG, "updateDataLabels: calling updateDataLabels");
-        this.dataLabels = labels;
-        this.adapter.notifyDataSetChanged();
+        //this.dataLabels.clear();
+         Log.d(TAG, "updateDataLabels: setting datLabels to be: " + labels.toString());
+         this.dataLabels = labels;
+
+         // Reassigns new adapter for the new data
+         this.adapter = new ItemAdapter(this, dataLabels, position -> {
+             Intent intent = new Intent(this, LabelActivity.class);
+             intent.putExtra(DATA_LABEL_INTENT_TAG, dataLabels.get(position));
+
+             startActivity(intent);
+         });
+         recyclerView.setAdapter(adapter);
+
+         this.adapter.notifyDataSetChanged();
     }
 
 }
