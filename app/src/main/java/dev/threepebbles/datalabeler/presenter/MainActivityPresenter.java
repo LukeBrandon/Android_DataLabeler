@@ -9,6 +9,7 @@ import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class MainActivityPresenter implements MainContract.Presenter{
     }
 
     // This has fake data, should make requests to the server
-    public List<DataLabel> getDataLabels() {
+    public void getDataLabels() {
         List<DataLabel> dataLabels = new ArrayList<>();
 
         Callback callback = new Callback() {
@@ -45,7 +46,8 @@ public class MainActivityPresenter implements MainContract.Presenter{
                 Log.d(TAG, "onResponse: response received");
 
                 try {
-                    JSONArray jsonArray = new JSONArray(message);
+                    JSONObject objectWithArray = new JSONObject(message);
+                    JSONArray jsonArray = objectWithArray.getJSONArray("labels");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         dataLabels.add(new DataLabel(jsonArray.getJSONObject(i)));
                     }
@@ -66,7 +68,7 @@ public class MainActivityPresenter implements MainContract.Presenter{
         // Get dataLabels from server
         getHttpResponse("https://vast-taiga-78775.herokuapp.com/labels", callback);
 
-        return dataLabels;
+        //return dataLabels;
 
     }
 
