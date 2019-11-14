@@ -13,7 +13,7 @@ import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.presenter.MainActivityPresenter;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeScreenActivity extends AppCompatActivity {
     private MainActivityPresenter presenter;
     private RecyclerView recyclerView;
     private ItemAdapter adapter;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_homescreen);
 
         settingButton = findViewById(R.id.settingsButton);
         settingButton.setOnClickListener(v -> {
