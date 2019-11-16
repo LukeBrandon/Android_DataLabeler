@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.HomeScreenActivity">
+        <activity android:name=".view.HomeActivity">
             <intent-filter>
                 <category android:name="android.intent.category.Default" />
             </intent-filter>

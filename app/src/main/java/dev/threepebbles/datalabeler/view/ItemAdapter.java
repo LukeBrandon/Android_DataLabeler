@@ -14,6 +14,8 @@ import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.model.DataLabel;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
+    private static final String TAG = "ItemAdapter";
+    
     private Context context;
     private List<DataLabel> dataLabels;
     private OnItemListener onItemListener;

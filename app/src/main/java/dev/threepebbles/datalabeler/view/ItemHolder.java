@@ -9,6 +9,8 @@ import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.model.DataLabel;
 
 public class ItemHolder extends RecyclerView.ViewHolder {
+    private static final String TAG = "ItemHolder";
+    
     private TextView itemTitle;
     private TextView itemDescription;
     private TextView itemValue;
@@ -25,8 +27,8 @@ public class ItemHolder extends RecyclerView.ViewHolder {
 
     public void setItemDetails(DataLabel dataLabel) {
         // Add in when things are implemented
-//        this.itemTitle.setText(dataLabel.getTitle());
-//        this.itemTitle.setText(dataLabel.getDescription());
-//        this.itemTitle.setText(dataLabel.getValue());
+        this.itemTitle.setText(dataLabel.getCategoryName());
+        this.itemDescription.setText(dataLabel.getDescription());
+        this.itemValue.setText(Double.toString(dataLabel.getValue()));
     }
 }

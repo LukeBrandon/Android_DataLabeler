@@ -12,7 +12,7 @@ public class Post {
         this.loginSuccessful = loginSuccessful;
     }
 
-    public boolean getLoginSucessful() {
+    public boolean getLoginSuccessful() {
         return this.loginSuccessful;
     }
 }

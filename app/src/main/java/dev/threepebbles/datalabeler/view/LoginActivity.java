@@ -45,10 +45,10 @@ public class LoginActivity extends AppCompatActivity {
         apiService.loginPost(email, password).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
-                boolean canLogin = response.body().getLoginSucessful();
+                boolean canLogin = response.body().getLoginSuccessful();
 
                 if (canLogin) {
-                    Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                     finish();
                 }
