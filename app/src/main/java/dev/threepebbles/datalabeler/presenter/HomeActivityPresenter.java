@@ -43,8 +43,6 @@ public class HomeActivityPresenter implements MainContract.Presenter{
             public void onResponse(Response response) throws IOException {
                 String message = response.body().string();
 
-                Log.d(TAG, "onResponse: response received");
-
                 try {
                     JSONObject objectWithArray = new JSONObject(message);
                     JSONArray jsonArray = objectWithArray.getJSONArray("labels");
@@ -62,8 +60,6 @@ public class HomeActivityPresenter implements MainContract.Presenter{
 
         // Get dataLabels from server
         getHttpResponse("https://vast-taiga-78775.herokuapp.com/labels", callback);
-
-        //return dataLabels;
     }
 
     private void getHttpResponse(String url, Callback callback) {

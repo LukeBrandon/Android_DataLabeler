@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import dev.threepebbles.datalabeler.R;
@@ -17,6 +18,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "LoginActivity";
+
     private TextView emailField;
     private TextView passwordField;
     private Button loginButton;
@@ -51,12 +54,14 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                     finish();
+                } else {
+                    // TODO: Show the user that the login was invalid here
                 }
             }
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-                Log.d("Samuel", "not cool");
+                Log.d(TAG, "Login post request faliure!");
             }
         });
     }
