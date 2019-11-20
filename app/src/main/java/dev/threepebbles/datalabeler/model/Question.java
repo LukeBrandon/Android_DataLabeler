@@ -4,17 +4,24 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 public class Question implements Parcelable {
     private static final String TAG = "Question";
 
+    @SerializedName("title")
+    @Expose
     private String title;
+
+    @SerializedName("type")
+    @Expose
     private Type type;
+
+    @SerializedName("answers")
+    @Expose
     private ArrayList<String> answers;
 
     public Question(String title, Type type, ArrayList<String> answers) {
@@ -23,28 +30,16 @@ public class Question implements Parcelable {
         this.answers = answers;
     }
 
-    public Question(Parcel in) {
-        this.title = in.readString();
-        this.answers = new ArrayList<>();
-        in.readStringList(this.answers);
+    protected Question(Parcel in) {
+        title = in.readString();
+        answers = in.createStringArrayList();
     }
 
-    public Question(JSONObject jsonObject) {
-        try {
-            this.title = jsonObject.getString("title");
-            this.type = Type.valueOf(jsonObject.getString("type"));
+    public void setTitle(String title) { this.title = title; }
 
-            // Create the list of answers from the JSON object
-            ArrayList<String> answersFromJson = new ArrayList<>();
-            JSONArray jsonArray = jsonObject.getJSONArray("answers");
-            for( int i =0; i < jsonArray.length(); i++){
-                answersFromJson.add(jsonArray.getString(i));
-            }
-            this.answers = answersFromJson;
-        } catch(JSONException e){
-            Log.d(TAG, "Question: JSON unmarshalling failure");
-        }
-    }
+    public Type getType() { return type; }
+
+    public void setType(Type type) { this.type = type; }
 
     public ArrayList<String> getAnswers () {
         return answers;
@@ -64,27 +59,18 @@ public class Question implements Parcelable {
         IMAGE_DRAW
     }
 
-    /*
-     * Method that is called when writing this class to a parcel
-     */
     @Override
-    public void writeToParcel (Parcel parcel,int i){
-
-        parcel.writeString(this.title);
-        parcel.writeStringList(this.answers);
-        // If adding more data to this class, write it to the parcel here so that it can be passed
-        //  between activities via an intent
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeStringList(answers);
     }
 
-    /*
-     * Parcel Stuff
-     */
     @Override
-    public int describeContents () {
+    public int describeContents() {
         return 0;
     }
 
-    public static final Parcelable.Creator<Question> CREATOR = new Parcelable.Creator<Question>() {
+    public static final Creator<Question> CREATOR = new Creator<Question>() {
         @Override
         public Question createFromParcel(Parcel in) {
             return new Question(in);

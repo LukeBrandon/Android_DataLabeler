@@ -58,7 +58,7 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/submitLabel"
+        android:id="@+id/submitButton"
         android:text="Submit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

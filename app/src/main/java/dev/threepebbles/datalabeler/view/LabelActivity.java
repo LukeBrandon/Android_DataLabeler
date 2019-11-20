@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -11,28 +12,38 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.model.DataLabel;
+import dev.threepebbles.datalabeler.model.DataLabelSubmission;
 import dev.threepebbles.datalabeler.model.Question;
+import dev.threepebbles.datalabeler.presenter.LabelActivityPresenter;
 
 public class LabelActivity extends AppCompatActivity {
     private static final String TAG = "LabelActivity";
 
+    private LabelActivityPresenter presenter;
+
     private TextView questionTitle;
-    private DataLabel data;
-    private ArrayList<Question> questions;
-    private int questionIndex;
     private RadioGroup radioGroup;
+    private Button submitButton;
+    private DataLabel data;
+    private List<Question> questions;
+    private int questionIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label);
 
+        this.presenter = new LabelActivityPresenter(this);
+
         this.questionIndex = 0;
         this.questionTitle = findViewById(R.id.questionTitle);
         this.radioGroup = findViewById(R.id.radioGroup);
+        this.submitButton = findViewById(R.id.submitButton);
+        this.submitButton.setOnClickListener(v -> { submitAnswer(); });
 
         getDataFromIntent();
     }
@@ -50,6 +61,20 @@ public class LabelActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    private void submitAnswer(){
+        // Put together the list of answers
+        List<Integer> answers = new ArrayList<>();
+
+        // ID is set in the updateUIForQUestionIndex() function to be the index of the button (0 indexed)
+        answers.add(radioGroup.getCheckedRadioButtonId());
+
+        DataLabelSubmission submission = new DataLabelSubmission(data.getId(), answers);
+        presenter.postAnswer(submission);
+
+        // Show a reward screen???
+        finish();
+    }
+
     /*
      * Updates the questionTitle, and radio buttons based on questionIndex
      *      - If going to next question, should update the UI to show next question
@@ -63,7 +88,7 @@ public class LabelActivity extends AppCompatActivity {
 
         for(int i = 0; i < this.questions.get(questionIndex).getAnswers().size(); i ++){
             RadioButton radioButton = new RadioButton(this);
-            radioButton.setId(View.generateViewId());
+            radioButton.setId(i);
             radioButton.setLayoutParams(params);
             radioButton.setText(this.questions.get(questionIndex).getAnswers().get(i));
 
