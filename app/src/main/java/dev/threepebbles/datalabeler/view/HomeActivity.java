@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -71,6 +72,10 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
         recyclerView.setAdapter(adapter);
 
         this.adapter.notifyDataSetChanged();
+    }
+
+    public void showInternetFailed(){
+        Toast.makeText(getApplicationContext(), "We are having trouble reaching the Internet, please check your connection and try again!", Toast.LENGTH_SHORT).show();
     }
 
 }

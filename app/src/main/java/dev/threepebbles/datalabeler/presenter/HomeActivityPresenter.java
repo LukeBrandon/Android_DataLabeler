@@ -31,13 +31,12 @@ public class HomeActivityPresenter implements MainContract.Presenter{
                 List<DataLabel> dataLabels = response.body();
 
                 // Update the recycler view to show the data
-                view.runOnUiThread(() -> view.updateDataLabels(dataLabels));
+                view.updateDataLabels(dataLabels);
             }
 
             @Override
             public void onFailure(Call<List<DataLabel>> call, Throwable t) {
-                Log.d(TAG, "onFailure: getBlogPosts FAILED");
-                t.printStackTrace();
+                view.showInternetFailed();
             }
         });
     }

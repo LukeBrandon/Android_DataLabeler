@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.model.Post;
+import dev.threepebbles.datalabeler.presenter.LoginActivityPresenter;
 import dev.threepebbles.datalabeler.remote.APIService;
 import dev.threepebbles.datalabeler.remote.APIUtils;
 import retrofit2.Call;
@@ -19,6 +21,8 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
+
+    private LoginActivityPresenter presenter;
 
     private TextView emailField;
     private TextView passwordField;
@@ -30,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        presenter = new LoginActivityPresenter(this);
         apiService = APIUtils.getAPIService();
 
         emailField = findViewById(R.id.emailField);
@@ -37,32 +42,22 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
 
         loginButton.setOnClickListener(v -> {
-            String email = emailField.getText().toString();
-            String password = passwordField.getText().toString();
-
-            attemptLogin(email, password);
+            // Tries to login with the current email and password
+            presenter.attemptLogin(emailField.getText().toString(), passwordField.getText().toString());
         });
     }
 
-    public void attemptLogin(String email, String password) {
-        apiService.loginPost(email, password).enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                boolean canLogin = response.body().getLoginSuccessful();
+    public void launchHomeActivity(){
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
-                if (canLogin) {
-                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    // TODO: Show the user that the login was invalid here
-                }
-            }
+    public void showLoginFailed(){
+        Toast.makeText(getApplicationContext(), "Invalid Login Atttempt", Toast.LENGTH_SHORT).show();
+    }
 
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                Log.d(TAG, "Login post request faliure!");
-            }
-        });
+    public void showInternetFailed(){
+        Toast.makeText(getApplicationContext(), "We are having trouble reaching the Internet, please check your connection and try again!", Toast.LENGTH_SHORT).show();
     }
 }

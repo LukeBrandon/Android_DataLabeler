@@ -31,15 +31,13 @@ public class LabelActivityPresenter {
 
                 Log.d(TAG, "onResponse: response from postAnswer: success=" + wasSuccess);
 
-                // Update the view
-                view.runOnUiThread(() -> view.showSuccessMessage());
-                //view.runOnUiThread(() -> view.updateDataLabels(dataLabels));
+                // Show user success
+                view.showSuccessMessage();
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: getBlogPosts FAILED");
-                t.printStackTrace();
+                view.showInternetFailed();
             }
         });
     }

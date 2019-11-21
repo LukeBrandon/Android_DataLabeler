@@ -72,12 +72,9 @@ public class LabelActivity extends AppCompatActivity {
         DataLabelSubmission submission = new DataLabelSubmission(data.getId(), answers);
         presenter.postAnswer(submission);
 
-        //TODO: Show a reward screen???
+        launchRewardActivity();
+        // Finishing removes activity from back stack
         finish();
-    }
-
-    public void showSuccessMessage(){
-        Toast.makeText(this, "Submitted Successfully!", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -102,4 +99,19 @@ public class LabelActivity extends AppCompatActivity {
             this.radioGroup.addView(radioButton);
         }
     }
+
+    private void launchRewardActivity(){
+        Intent intent = new Intent(this, RewardActivity.class);
+        startActivity(intent);
+    }
+
+    public void showSuccessMessage(){
+        Toast.makeText(this, "Submitted Successfully!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void showInternetFailed(){
+        Toast.makeText(getApplicationContext(), "We are having trouble reaching the Internet, please check your connection and try again!", Toast.LENGTH_SHORT).show();
+    }
+
+
 }
