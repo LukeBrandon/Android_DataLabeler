@@ -1,6 +1,7 @@
 package dev.threepebbles.datalabeler.presenter;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import dev.threepebbles.datalabeler.model.DataLabelSubmission;
 import dev.threepebbles.datalabeler.model.SimpleResponse;
@@ -31,6 +32,7 @@ public class LabelActivityPresenter {
                 Log.d(TAG, "onResponse: response from postAnswer: success=" + wasSuccess);
 
                 // Update the view
+                view.runOnUiThread(() -> view.showSuccessMessage());
                 //view.runOnUiThread(() -> view.updateDataLabels(dataLabels));
             }
 

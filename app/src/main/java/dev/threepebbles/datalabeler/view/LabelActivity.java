@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -71,8 +72,12 @@ public class LabelActivity extends AppCompatActivity {
         DataLabelSubmission submission = new DataLabelSubmission(data.getId(), answers);
         presenter.postAnswer(submission);
 
-        // Show a reward screen???
+        //TODO: Show a reward screen???
         finish();
+    }
+
+    public void showSuccessMessage(){
+        Toast.makeText(this, "Submitted Successfully!", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -80,17 +85,19 @@ public class LabelActivity extends AppCompatActivity {
      *      - If going to next question, should update the UI to show next question
      */
     private void updateUIForQuestionIndex(){
-        this.questionTitle.setText(this.questions.get(questionIndex).getTitle());
+        Question questionToDisplay = this.questions.get(questionIndex);
+
+        this.questionTitle.setText(questionToDisplay.getTitle());
 
         // Defines the margins that are going to be applied to all of the radio buttons
         RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 15, 0, 15);
 
-        for(int i = 0; i < this.questions.get(questionIndex).getAnswers().size(); i ++){
+        for(int i = 0; i < questionToDisplay.getAnswers().size(); i ++){
             RadioButton radioButton = new RadioButton(this);
             radioButton.setId(i);
             radioButton.setLayoutParams(params);
-            radioButton.setText(this.questions.get(questionIndex).getAnswers().get(i));
+            radioButton.setText(questionToDisplay.getAnswers().get(i));
 
             this.radioGroup.addView(radioButton);
         }
