@@ -24,8 +24,8 @@ public class HomeActivityPresenter implements MainContract.Presenter{
     }
 
     // Returns all of the data labels
-    public void getDataLabels(){
-        apiService.getDataLabels().enqueue(new Callback<List<DataLabel>>() {
+    public void getDataLabels(int id){
+        apiService.getDataLabels(id).enqueue(new Callback<List<DataLabel>>() {
             @Override
             public void onResponse(Call<List<DataLabel>> call, retrofit2.Response<List<DataLabel>> response) {
                 List<DataLabel> dataLabels = response.body();

@@ -1,7 +1,6 @@
 package dev.threepebbles.datalabeler.presenter;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import dev.threepebbles.datalabeler.model.DataLabelSubmission;
 import dev.threepebbles.datalabeler.model.SimpleResponse;
@@ -28,11 +27,9 @@ public class LabelActivityPresenter {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 boolean wasSuccess = response.body().getSuccess();
-
-                Log.d(TAG, "onResponse: response from postAnswer: success=" + wasSuccess);
-
-                // Show user success
-                view.showSuccessMessage();
+                if(wasSuccess) {
+                    view.showSuccessMessage();
+                }
             }
 
             @Override

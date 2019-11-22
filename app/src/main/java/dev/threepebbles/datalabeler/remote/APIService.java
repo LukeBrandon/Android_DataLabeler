@@ -12,11 +12,12 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface APIService {
 
     @GET("/labels")
-    Call<List<DataLabel>> getDataLabels();
+    Call<List<DataLabel>> getDataLabels(@Query("id") int id);
 
     @POST("/login")
     @FormUrlEncoded
