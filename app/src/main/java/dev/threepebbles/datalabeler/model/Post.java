@@ -8,11 +8,23 @@ public class Post {
     @Expose
     private boolean loginSuccessful;
 
+    @SerializedName("accountId")
+    @Expose
+    private int accountId;
+
     public void setLoginSucessful(boolean loginSuccessful) {
         this.loginSuccessful = loginSuccessful;
     }
 
     public boolean getLoginSuccessful() {
         return this.loginSuccessful;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 }

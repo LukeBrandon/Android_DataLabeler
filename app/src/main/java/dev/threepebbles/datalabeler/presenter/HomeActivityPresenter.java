@@ -1,13 +1,10 @@
 package dev.threepebbles.datalabeler.presenter;
 
-import android.util.Log;
-
 import java.util.List;
 
 import dev.threepebbles.datalabeler.contact.MainContract;
 import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.remote.APIService;
-import dev.threepebbles.datalabeler.remote.APIUtils;
 import dev.threepebbles.datalabeler.view.HomeActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
