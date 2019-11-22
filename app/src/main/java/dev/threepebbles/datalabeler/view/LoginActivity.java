@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        presenter = new LoginActivityPresenter(this, getApplicationContext());
+        presenter = new LoginActivityPresenter(this);
         apiService = APIUtils.getAPIService();
 
         emailField = findViewById(R.id.emailField);

@@ -1,7 +1,6 @@
 package dev.threepebbles.datalabeler.presenter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import dev.threepebbles.datalabeler.model.Post;
 import dev.threepebbles.datalabeler.remote.APIService;
@@ -22,9 +21,9 @@ public class LoginActivityPresenter {
     LoginActivity view;
     APIService apiService;
 
-    public LoginActivityPresenter(LoginActivity activity, Context context){
+    public LoginActivityPresenter(LoginActivity activity){
         this.view = activity;
-        this.context = context;
+        this.context = view.getApplicationContext();
         this.apiService = APIUtils.getAPIService();
     }
 
@@ -36,7 +35,9 @@ public class LoginActivityPresenter {
                 int accountId = response.body().getAccountId();
 
                 if (canLogin) {
+                    // Save the accountId
                     SharedPreferencesHandler.saveAccountId(context, accountId);
+
                     view.launchHomeActivity();
                 } else {
                     // TODO: Show the user that the login was invalid here -- Better way??

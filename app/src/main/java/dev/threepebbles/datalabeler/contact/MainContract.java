@@ -13,7 +13,7 @@ public interface MainContract {
     }
 
     interface Presenter {
-        void getDataLabels(int id);
+        void getDataLabelsForAccount();
 
 
     }

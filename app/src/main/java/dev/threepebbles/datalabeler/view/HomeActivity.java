@@ -42,14 +42,14 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
         });
 
         initializeRecyclerView();
-        presenter.getDataLabels(1); // TODO: Should get Id from storage somewhere??
+        presenter.getDataLabelsForAccount();
         Log.d(TAG, "onCreate: set DataLabels to: " + dataLabels);
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        presenter.getDataLabels();
+        presenter.getDataLabelsForAccount();
     }
 
     private void initializeRecyclerView() {
