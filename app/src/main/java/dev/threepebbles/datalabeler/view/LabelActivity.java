@@ -24,6 +24,7 @@ import dev.threepebbles.datalabeler.sharedPreferences.SharedPreferencesHandler;
 
 public class LabelActivity extends AppCompatActivity {
     private static final String TAG = "LabelActivity";
+    public static final String VALUE_INTENT_TAG = "Value";
 
     private LabelActivityPresenter presenter;
 
@@ -103,6 +104,7 @@ public class LabelActivity extends AppCompatActivity {
 
     private void launchRewardActivity(){
         Intent intent = new Intent(this, RewardActivity.class);
+        intent.putExtra(VALUE_INTENT_TAG, data.getValue());
         startActivity(intent);
     }
 
