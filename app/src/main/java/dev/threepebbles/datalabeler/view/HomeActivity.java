@@ -72,8 +72,6 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
             });
             recyclerView.setAdapter(adapter);
 
-            Log.d(TAG, "updateDataLabels: Added adapter: " + adapter);
-
             this.adapter.notifyDataSetChanged();
         } else {
             Toast.makeText(getApplicationContext(), "Nothing for you to label right now, check back later", Toast.LENGTH_LONG);

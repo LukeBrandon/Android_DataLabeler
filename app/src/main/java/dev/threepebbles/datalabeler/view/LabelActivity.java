@@ -20,6 +20,7 @@ import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.model.DataLabelSubmission;
 import dev.threepebbles.datalabeler.model.Question;
 import dev.threepebbles.datalabeler.presenter.LabelActivityPresenter;
+import dev.threepebbles.datalabeler.sharedPreferences.SharedPreferencesHandler;
 
 public class LabelActivity extends AppCompatActivity {
     private static final String TAG = "LabelActivity";
@@ -69,7 +70,7 @@ public class LabelActivity extends AppCompatActivity {
         // ID is set in the updateUIForQUestionIndex() function to be the index of the button (0 indexed)
         answers.add(radioGroup.getCheckedRadioButtonId());
 
-        DataLabelSubmission submission = new DataLabelSubmission(data.getId(), answers);
+        DataLabelSubmission submission = new DataLabelSubmission(data.getId(), SharedPreferencesHandler.getStoredAccountId(this), answers);
         presenter.postAnswer(submission);
 
         launchRewardActivity();
