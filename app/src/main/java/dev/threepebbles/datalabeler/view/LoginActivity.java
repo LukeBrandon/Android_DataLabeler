@@ -21,7 +21,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView emailField;
     private TextView passwordField;
     private Button loginButton;
-    private APIService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         presenter = new LoginActivityPresenter(this);
-        apiService = APIUtils.getAPIService();
 
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);

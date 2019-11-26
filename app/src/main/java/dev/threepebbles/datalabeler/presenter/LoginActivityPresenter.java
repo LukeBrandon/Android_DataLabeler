@@ -14,9 +14,6 @@ import retrofit2.Response;
 public class LoginActivityPresenter {
     private static final String TAG = "LoginActivityPresenter";
 
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String ACCOUNT_ID = "accountId";
-
     Context context;
     LoginActivity view;
     APIService apiService;
@@ -40,7 +37,7 @@ public class LoginActivityPresenter {
 
                     view.launchHomeActivity();
                 } else {
-                    // TODO: Show the user that the login was invalid here -- Better way??
+                    // Show the user that the login was invalid
                     view.showLoginFailed();
                 }
             }

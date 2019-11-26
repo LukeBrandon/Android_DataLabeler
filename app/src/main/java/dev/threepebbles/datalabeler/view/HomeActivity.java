@@ -59,19 +59,25 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
     }
 
     public void updateDataLabels(List<DataLabel> labels) {
-        Log.d(TAG, "updateDataLabels: setting dataLabels to be: " + labels.toString());
-        this.dataLabels = labels;
+        if(labels != null) {
+            Log.d(TAG, "updateDataLabels: setting dataLabels to be: " + labels.toString());
+            this.dataLabels = labels;
 
-        // Reassigns new adapter for the new data
-        this.adapter = new ItemAdapter(this, dataLabels, position -> {
-            Intent intent = new Intent(this, LabelActivity.class);
-            intent.putExtra(DATA_LABEL_INTENT_TAG, dataLabels.get(position));
+            // Reassigns new adapter for the new data
+            this.adapter = new ItemAdapter(this, dataLabels, position -> {
+                Intent intent = new Intent(this, LabelActivity.class);
+                intent.putExtra(DATA_LABEL_INTENT_TAG, dataLabels.get(position));
 
-            startActivity(intent);
-        });
-        recyclerView.setAdapter(adapter);
+                startActivity(intent);
+            });
+            recyclerView.setAdapter(adapter);
 
-        this.adapter.notifyDataSetChanged();
+            Log.d(TAG, "updateDataLabels: Added adapter: " + adapter);
+
+            this.adapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(getApplicationContext(), "Nothing for you to label right now, check back later", Toast.LENGTH_LONG);
+        }
     }
 
     public void showInternetFailed(){

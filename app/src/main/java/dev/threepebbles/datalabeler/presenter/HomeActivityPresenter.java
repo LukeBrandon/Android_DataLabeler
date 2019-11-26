@@ -1,6 +1,7 @@
 package dev.threepebbles.datalabeler.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
@@ -29,11 +30,14 @@ public class HomeActivityPresenter implements MainContract.Presenter{
     // Returns all of the data labels
     public void getDataLabelsForAccount(){
         int id = SharedPreferencesHandler.getStoredAccountId(this.context);
+        Log.d(TAG, "getDataLabelsForAccount: account id to make request is " + id);
 
         apiService.getDataLabels(id).enqueue(new Callback<List<DataLabel>>() {
             @Override
             public void onResponse(Call<List<DataLabel>> call, retrofit2.Response<List<DataLabel>> response) {
                 List<DataLabel> dataLabels = response.body();
+
+                Log.d(TAG, "onResponse: dataLabels received from server: " + dataLabels.toString());
 
                 // Update the recycler view to show the data
                 view.updateDataLabels(dataLabels);
