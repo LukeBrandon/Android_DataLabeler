@@ -51,19 +51,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void showLoginFailed(){
-        this.loginButton.setVisibility(View.VISIBLE);
-        this.spinner.setVisibility(View.INVISIBLE);
+        setSpinnerVisiblity(View.INVISIBLE);
         Toast.makeText(getApplicationContext(), "Invalid Login Atttempt", Toast.LENGTH_SHORT).show();
     }
 
     public void showInternetFailed(){
-        this.loginButton.setVisibility(View.VISIBLE);
-        this.spinner.setVisibility(View.INVISIBLE);
+        setSpinnerVisiblity(View.INVISIBLE);
         Toast.makeText(getApplicationContext(), "We are having trouble reaching the Internet, please check your connection and try again!", Toast.LENGTH_SHORT).show();
     }
 
     public void setSpinnerVisiblity(int visiblity) {
-        this.loginButton.setVisibility(View.INVISIBLE);
-        this.spinner.setVisibility(visiblity);
+        if(visiblity == View.VISIBLE){
+            this.loginButton.setVisibility(View.INVISIBLE);
+            this.spinner.setVisibility(View.VISIBLE);
+        } else {
+            this.loginButton.setVisibility(View.VISIBLE);
+            this.spinner.setVisibility(View.INVISIBLE);
+        }
+
     }
 }
