@@ -33,6 +33,8 @@ public class LabelActivity extends AppCompatActivity {
     private Button submitButton;
     private DataLabel data;
     private List<Question> questions;
+    List<Integer> answers;
+
     private int questionIndex;
 
     @Override
@@ -43,6 +45,7 @@ public class LabelActivity extends AppCompatActivity {
         this.presenter = new LabelActivityPresenter(this);
 
         this.questionIndex = 0;
+        this.answers = new ArrayList<>();
         this.questionTitle = findViewById(R.id.questionTitle);
         this.radioGroup = findViewById(R.id.radioGroup);
         this.submitButton = findViewById(R.id.submitButton);
@@ -65,18 +68,24 @@ public class LabelActivity extends AppCompatActivity {
     }
 
     private void submitAnswer(){
-        // Put together the list of answers
-        List<Integer> answers = new ArrayList<>();
-
-        // ID is set in the updateUIForQUestionIndex() function to be the index of the button (0 indexed)
+        // ID is set in the updateUIForQuestionIndex() function to be the index of the button (0 indexed)
         answers.add(radioGroup.getCheckedRadioButtonId());
 
-        DataLabelSubmission submission = new DataLabelSubmission(data.getId(), SharedPreferencesHandler.getStoredAccountId(this), answers);
-        presenter.postAnswer(submission);
+        // If this was the last question
+        if(this.questionIndex == this.questions.size() - 1) {
+            DataLabelSubmission submission = new DataLabelSubmission(data.getId(), SharedPreferencesHandler.getStoredAccountId(this), answers);
+            presenter.postAnswer(submission);
 
-        launchRewardActivity();
-        // Finishing removes activity from back stack
-        finish();
+            launchRewardActivity();
+            // Finishing removes activity from back stack
+            finish();
+
+        // There are still more questions to this DataLabel
+        } else {
+
+            questionIndex++;
+            updateUIForQuestionIndex();
+        }
     }
 
     /*
@@ -87,6 +96,9 @@ public class LabelActivity extends AppCompatActivity {
         Question questionToDisplay = this.questions.get(questionIndex);
 
         this.questionTitle.setText(questionToDisplay.getTitle());
+
+        // Clears the radio group between
+        this.radioGroup.removeAllViews();
 
         // Defines the margins that are going to be applied to all of the radio buttons
         RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

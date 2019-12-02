@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void setSpinnerVisiblity(int visiblity) {
+        this.loginButton.setVisibility(View.INVISIBLE);
         this.spinner.setVisibility(visiblity);
     }
 }
