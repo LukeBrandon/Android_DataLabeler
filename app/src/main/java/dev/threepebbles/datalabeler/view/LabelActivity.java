@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class LabelActivity extends AppCompatActivity {
 
     private LabelActivityPresenter presenter;
 
+    private ProgressBar progressBar;
     private TextView questionTitle;
     private RadioGroup radioGroup;
     private Button submitButton;
@@ -46,12 +48,16 @@ public class LabelActivity extends AppCompatActivity {
 
         this.questionIndex = 0;
         this.answers = new ArrayList<>();
+        this.progressBar = findViewById(R.id.progressBar);
         this.questionTitle = findViewById(R.id.questionTitle);
         this.radioGroup = findViewById(R.id.radioGroup);
         this.submitButton = findViewById(R.id.submitButton);
         this.submitButton.setOnClickListener(v -> { submitAnswer(); });
 
         getDataFromIntent();
+
+        // Progress bar max is the number of questions to label
+        this.progressBar.setMax(this.questions.size());
     }
 
     private void getDataFromIntent(){
@@ -95,6 +101,8 @@ public class LabelActivity extends AppCompatActivity {
     private void updateUIForQuestionIndex(){
         Question questionToDisplay = this.questions.get(questionIndex);
 
+        // Set display for question and progress bar
+        this.progressBar.setProgress(this.questionIndex, true);
         this.questionTitle.setText(questionToDisplay.getTitle());
 
         // Clears the radio group between
