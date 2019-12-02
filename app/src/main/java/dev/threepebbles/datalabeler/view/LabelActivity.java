@@ -65,6 +65,7 @@ public class LabelActivity extends AppCompatActivity {
         Intent intent = getIntent();
         data = intent.getParcelableExtra(HomeActivity.DATA_LABEL_INTENT_TAG);
         this.questions = data.getQuestions();
+        Log.d(TAG, "getDataFromIntent: data imageUrl is: " + data.getQuestions().get(0).getImageUrl());
 
         updateUIForQuestionIndex();
     }

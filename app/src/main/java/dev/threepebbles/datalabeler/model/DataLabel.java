@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataLabel implements Parcelable {
@@ -27,20 +28,15 @@ public class DataLabel implements Parcelable {
     @Expose
     Double value;
 
-    @SerializedName("imageUrl")
-    @Expose
-    String imageUrl;
-
     @SerializedName("questions")
     @Expose
     List<Question> questions;
 
-    public DataLabel(int id, String categoryName, String description, Double value, List<Question> questions, String imageUrl) {
+    public DataLabel(int id, String categoryName, String description, Double value, List<Question> questions) {
         this.id = id;
         this.categoryName = categoryName;
         this.description = description;
         this.value = value;
-        this.imageUrl = imageUrl;
         this.questions = questions;
     }
 
@@ -48,7 +44,6 @@ public class DataLabel implements Parcelable {
         id = in.readInt();
         categoryName = in.readString();
         description = in.readString();
-        imageUrl = in.readString();
         if (in.readByte() == 0) {
             value = null;
         } else {
@@ -62,7 +57,6 @@ public class DataLabel implements Parcelable {
         dest.writeInt(id);
         dest.writeString(categoryName);
         dest.writeString(description);
-        dest.writeString(imageUrl);
         if (value == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -100,10 +94,6 @@ public class DataLabel implements Parcelable {
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }
-
-    public String getImageUrl() { return imageUrl; }
-
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public Double getValue() { return value; }
 
