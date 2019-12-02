@@ -6,12 +6,14 @@ import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.model.Post;
 import dev.threepebbles.datalabeler.model.DataLabelSubmission;
 import dev.threepebbles.datalabeler.model.SimpleResponse;
+import dev.threepebbles.datalabeler.model.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface APIService {
@@ -25,4 +27,7 @@ public interface APIService {
 
     @POST("/submission")
     Call<SimpleResponse> dataLabelSubmit(@Body DataLabelSubmission dataLabelSubmission);
+
+    @GET("/user/{id}")
+    Call<User> getUser(@Path("id") int userId);
 }

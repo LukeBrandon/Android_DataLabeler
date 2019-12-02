@@ -1,6 +1,7 @@
 package dev.threepebbles.datalabeler.presenter;
 
 import android.content.Context;
+import android.view.View;
 
 import dev.threepebbles.datalabeler.model.Post;
 import dev.threepebbles.datalabeler.remote.APIService;
@@ -35,6 +36,7 @@ public class LoginActivityPresenter {
                     // Save the accountId
                     SharedPreferencesHandler.saveAccountId(context, accountId);
 
+                    view.setSpinnerVisiblity(View.INVISIBLE);
                     view.launchHomeActivity();
                 } else {
                     // Show the user that the login was invalid

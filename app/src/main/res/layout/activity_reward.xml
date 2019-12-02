@@ -30,7 +30,7 @@
         android:id="@+id/valueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="$40.39"
+        android:text="$--"
         android:textSize="44sp"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
