@@ -3,6 +3,8 @@ package dev.threepebbles.datalabeler.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import java.util.List;
 
 import dev.threepebbles.datalabeler.contact.MainContract;
@@ -41,6 +43,8 @@ public class HomeActivityPresenter implements MainContract.Presenter{
 
                 // Update the recycler view to show the data
                 view.updateDataLabels(dataLabels);
+                view.mySwipeRefreshLayout.setRefreshing(false);
+
             }
 
             @Override
