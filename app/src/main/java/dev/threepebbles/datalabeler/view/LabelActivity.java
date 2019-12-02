@@ -2,6 +2,7 @@ package dev.threepebbles.datalabeler.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -82,6 +83,8 @@ public class LabelActivity extends AppCompatActivity {
             DataLabelSubmission submission = new DataLabelSubmission(data.getId(), SharedPreferencesHandler.getStoredAccountId(this), answers);
             presenter.postAnswer(submission);
 
+            Log.d(TAG, "submitAnswer: answers when submitting is: " + answers.toString());
+
             launchRewardActivity();
             // Finishing removes activity from back stack
             finish();
@@ -106,7 +109,7 @@ public class LabelActivity extends AppCompatActivity {
         this.questionTitle.setText(questionToDisplay.getTitle());
 
         // Clears the radio group between
-        this.radioGroup.removeAllViews();
+        this.radioGroup.removeAllViewsInLayout();
 
         // Defines the margins that are going to be applied to all of the radio buttons
         RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
