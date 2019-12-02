@@ -11,7 +11,6 @@ public class DataLabelSubmission {
     @Expose
     int labelId;
 
-
     @SerializedName("userId")
     @Expose
     int userId;

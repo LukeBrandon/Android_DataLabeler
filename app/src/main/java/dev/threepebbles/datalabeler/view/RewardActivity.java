@@ -43,3 +43,4 @@ public class RewardActivity extends AppCompatActivity {
     }
 
 }
+
