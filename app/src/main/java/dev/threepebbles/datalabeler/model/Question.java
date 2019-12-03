@@ -2,7 +2,6 @@ package dev.threepebbles.datalabeler.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -18,28 +17,23 @@ public class Question implements Parcelable {
 
     @SerializedName("type")
     @Expose
-    private Type type;
+    private QuestionType questionType;
 
     @SerializedName("answers")
     @Expose
     private ArrayList<String> answers;
 
-    public Question(String title, Type type, ArrayList<String> answers) {
+    public Question(String title, QuestionType questionType, ArrayList<String> answers) {
         this.title = title;
-        this.type = type;
+        this.questionType = questionType;
         this.answers = answers;
-    }
-
-    protected Question(Parcel in) {
-        title = in.readString();
-        answers = in.createStringArrayList();
     }
 
     public void setTitle(String title) { this.title = title; }
 
-    public Type getType() { return type; }
+    public QuestionType getQuestionType() { return questionType; }
 
-    public void setType(Type type) { this.type = type; }
+    public void setQuestionType(QuestionType questionType) { this.questionType = questionType; }
 
     public ArrayList<String> getAnswers () {
         return answers;
@@ -53,27 +47,36 @@ public class Question implements Parcelable {
         this.answers = answers;
     }
 
-    public enum Type {
+    public enum QuestionType {
         MULTIPLE_CHOICE,
         SHORT_ANSWER,
         IMAGE_DRAW
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeStringList(answers);
-    }
 
     @Override
     public int describeContents() {
         return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeInt(this.questionType == null ? -1 : this.questionType.ordinal());
+        dest.writeStringList(this.answers);
+    }
+
+    protected Question(Parcel in) {
+        this.title = in.readString();
+        int tmpQuestionType = in.readInt();
+        this.questionType = tmpQuestionType == -1 ? null : QuestionType.values()[tmpQuestionType];
+        this.answers = in.createStringArrayList();
+    }
+
     public static final Creator<Question> CREATOR = new Creator<Question>() {
         @Override
-        public Question createFromParcel(Parcel in) {
-            return new Question(in);
+        public Question createFromParcel(Parcel source) {
+            return new Question(source);
         }
 
         @Override
@@ -81,5 +84,4 @@ public class Question implements Parcelable {
             return new Question[size];
         }
     };
-
 }
