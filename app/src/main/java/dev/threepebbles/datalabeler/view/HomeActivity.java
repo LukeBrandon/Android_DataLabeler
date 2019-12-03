@@ -28,7 +28,7 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
     public ItemAdapter adapter;
     public List<DataLabel> dataLabels;
     private ImageButton settingButton;
-    private SwipeRefreshLayout mySwipeRefreshLayout;
+    public SwipeRefreshLayout mySwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
          */
         mySwipeRefreshLayout.setOnRefreshListener( () -> {
             Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
+            onResume();
         });
 
 
