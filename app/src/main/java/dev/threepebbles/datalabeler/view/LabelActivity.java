@@ -27,20 +27,9 @@ import dev.threepebbles.datalabeler.presenter.LabelActivityPresenter;
 import dev.threepebbles.datalabeler.sharedPreferences.SharedPreferencesHandler;
 
 public class LabelActivity extends AppCompatActivity {
-//    private static final String TAG = "LabelActivity";
-//    public static final String VALUE_INTENT_TAG = "Value";
-//
-//    private LabelActivityPresenter presenter;
-//
-//    private ProgressBar progressBar;
-//    private TextView questionTitle;
-//    private RadioGroup radioGroup;
-//    private Button submitButton;
-//    private DataLabel data;
-//    private List<Question> questions;
-//    List<Integer> answers;
-//
-//    private int questionIndex;
+    private static final String TAG = "LabelActivity";
+    public static final String VALUE_INTENT_TAG = "Value";
+
     private DataLabel dataLabel;
     private Iterator<Question> questionIterator;
     private Question.QuestionType currentQuestionType;
@@ -156,6 +145,7 @@ public class LabelActivity extends AppCompatActivity {
             answers.add(radioButton.getText().toString());
 
             this.progressBar.setProgress(this.progressBar.getProgress() + 1, true);
+
             return true;
         } catch (Exception err) {
 
@@ -169,6 +159,7 @@ public class LabelActivity extends AppCompatActivity {
 
         if (!answer.isEmpty()) {
             answers.add(answer);
+
             return true;
         }
 
