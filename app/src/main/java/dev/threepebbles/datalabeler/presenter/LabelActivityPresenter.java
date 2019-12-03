@@ -61,10 +61,6 @@ public class LabelActivityPresenter {
     }
 
     public void getImageFromFileName(String fileName, ImageView imageView){
-        // Assure that the user is signed in anonymously with FireBase
-        //FirebaseUser user = FirebaseAuthHandler.getFirebaseUser(view);
-        //Log.d(TAG, "getImageFromFileName: user is :" + user.toString());
-
         StorageReference imageRef = storageReference.child(fileName);
         Log.d(TAG, "getImageFromFileName: imageRef: " + imageRef.toString());
 
