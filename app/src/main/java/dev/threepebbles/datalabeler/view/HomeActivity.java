@@ -3,6 +3,7 @@ package dev.threepebbles.datalabeler.view;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
     public ItemAdapter adapter;
     public List<DataLabel> dataLabels;
     private ImageButton settingButton;
+    private SwipeRefreshLayout mySwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,25 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         });
+
+
+        mySwipeRefreshLayout = findViewById(R.id.swiperefresh);
+        /*
+         * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
+         * performs a swipe-to-refresh gesture.
+         */
+        mySwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
+
+                        // This method performs the actual data-refresh operation.
+                        // The method calls setRefreshing(false) when it's finished.
+//                        myUpdateOperation();
+                    }
+                }
+        );
 
         initializeRecyclerView();
         presenter.getDataLabelsForAccount();
