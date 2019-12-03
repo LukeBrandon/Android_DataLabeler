@@ -49,18 +49,10 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
          * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
          * performs a swipe-to-refresh gesture.
          */
-        mySwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
+        mySwipeRefreshLayout.setOnRefreshListener( () -> {
+            Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
+        });
 
-                        // This method performs the actual data-refresh operation.
-                        // The method calls setRefreshing(false) when it's finished.
-//                        myUpdateOperation();
-                    }
-                }
-        );
 
         initializeRecyclerView();
         presenter.getDataLabelsForAccount();
