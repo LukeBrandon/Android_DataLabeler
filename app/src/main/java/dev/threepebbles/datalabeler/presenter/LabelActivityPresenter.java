@@ -1,9 +1,25 @@
 package dev.threepebbles.datalabeler.presenter;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import dev.threepebbles.datalabeler.model.DataLabelSubmission;
 import dev.threepebbles.datalabeler.model.SimpleResponse;
 import dev.threepebbles.datalabeler.remote.APIService;
 import dev.threepebbles.datalabeler.remote.APIUtils;
+import dev.threepebbles.datalabeler.remote.FirebaseAuthHandler;
 import dev.threepebbles.datalabeler.view.LabelActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -11,13 +27,20 @@ import retrofit2.Response;
 
 public class LabelActivityPresenter {
     private static final String TAG = "LabelActivityPresenter";
+    final long ONE_MEGABYTE = 1024 * 1024;
 
-    LabelActivity view;
-    APIService apiService;
+
+    private LabelActivity view;
+    private Context context;
+    private APIService apiService;
+    private StorageReference storageReference;
+
 
     public LabelActivityPresenter(LabelActivity activity){
         this.view = activity;
+        this.context = view.getApplicationContext();
         this.apiService = APIUtils.getAPIService();
+        this.storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     public void postAnswer(DataLabelSubmission dataLabelSubmission){
@@ -34,6 +57,26 @@ public class LabelActivityPresenter {
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 view.showInternetFailed();
             }
+        });
+    }
+
+    public void getImageFromFileName(String fileName, ImageView imageView){
+        // Assure that the user is signed in anonymously with FireBase
+        //FirebaseUser user = FirebaseAuthHandler.getFirebaseUser(view);
+        //Log.d(TAG, "getImageFromFileName: user is :" + user.toString());
+
+        StorageReference imageRef = storageReference.child(fileName);
+        Log.d(TAG, "getImageFromFileName: imageRef: " + imageRef.toString());
+
+        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytes -> {
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, imageView.getWidth(), imageView.getHeight(), false);
+            view.setImageBitMap(scaledBitmap);
+
+        }).addOnFailureListener(exception -> {
+
+            Log.d(TAG, "getImageFromFileName: Retrieved image failed");
         });
     }
 }

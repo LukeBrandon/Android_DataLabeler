@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "169024154115",
+    "firebase_url": "https://data-labeler-281b0.firebaseio.com",
+    "project_id": "data-labeler-281b0",
+    "storage_bucket": "data-labeler-281b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169024154115:android:9f404bc9e85a1b51bcfc36",
+        "android_client_info": {
+          "package_name": "dev.threepebbles.datalabeler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169024154115-ij2cl5220hk0lbt5m05kf16nfrsdre35.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.threepebbles.datalabeler",
+            "certificate_hash": "9246036bc9d0f881cbcf57c115c0aa59a46aa7d2"
+          }
+        },
+        {
+          "client_id": "169024154115-mlip0qlje8nbdf7a2b9h4rdppvj5rsk8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-gTEtjYp3vdcXWPVKZJwHALRy267UNJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169024154115-mlip0qlje8nbdf7a2b9h4rdppvj5rsk8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

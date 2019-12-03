@@ -1,11 +1,13 @@
 package dev.threepebbles.datalabeler.view;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +35,7 @@ public class LabelActivity extends AppCompatActivity {
     private LabelActivityPresenter presenter;
 
     private ProgressBar progressBar;
+    private ImageView imageView;
     private TextView questionTitle;
     private RadioGroup radioGroup;
     private Button submitButton;
@@ -49,6 +54,7 @@ public class LabelActivity extends AppCompatActivity {
 
         this.questionIndex = 0;
         this.answers = new ArrayList<>();
+        this.imageView = findViewById(R.id.labelSubject);
         this.progressBar = findViewById(R.id.progressBar);
         this.questionTitle = findViewById(R.id.questionTitle);
         this.radioGroup = findViewById(R.id.radioGroup);
@@ -65,7 +71,10 @@ public class LabelActivity extends AppCompatActivity {
         Intent intent = getIntent();
         data = intent.getParcelableExtra(HomeActivity.DATA_LABEL_INTENT_TAG);
         this.questions = data.getQuestions();
-        Log.d(TAG, "getDataFromIntent: data imageUrl is: " + data.getQuestions().get(0).getImageUrl());
+
+        Log.d(TAG, "getDataFromIntent: data imageUrl is: " + data.getQuestions().get(questionIndex).getImageUrl());
+
+        presenter.getImageFromFileName(data.getQuestions().get(questionIndex).getImageUrl(), this.imageView);
 
         updateUIForQuestionIndex();
     }
@@ -108,6 +117,7 @@ public class LabelActivity extends AppCompatActivity {
         // Set display for question and progress bar
         this.progressBar.setProgress(this.questionIndex, true);
         this.questionTitle.setText(questionToDisplay.getTitle());
+        presenter.getImageFromFileName(questionToDisplay.getImageUrl(), this.imageView);
 
         // Clears the radio group between
         this.radioGroup.removeAllViewsInLayout();
@@ -124,6 +134,10 @@ public class LabelActivity extends AppCompatActivity {
 
             this.radioGroup.addView(radioButton);
         }
+    }
+
+    public void setImageBitMap(Bitmap bitmap){
+        imageView.setImageBitmap(bitmap);
     }
 
     private void launchRewardActivity(){
