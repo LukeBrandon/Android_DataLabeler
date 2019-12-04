@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DataLabel implements Parcelable {
@@ -84,23 +83,18 @@ public class DataLabel implements Parcelable {
     };
 
     public int getId() { return id; }
-
     public void setId(int id) { this.id = id; }
 
     public String getCategoryName() { return categoryName; }
-
     public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
 
     public String getDescription() { return description; }
-
     public void setDescription(String description) { this.description = description; }
 
     public Double getValue() { return value; }
-
     public void setValue(Double value) { this.value = value; }
 
     public List<Question> getQuestions() { return questions; }
-
     public void setQuestions(List<Question> questions) { this.questions = questions; }
 
 }

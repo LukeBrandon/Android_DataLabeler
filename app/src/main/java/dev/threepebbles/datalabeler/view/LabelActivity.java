@@ -1,10 +1,13 @@
 package dev.threepebbles.datalabeler.view;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -13,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,17 +39,22 @@ public class LabelActivity extends AppCompatActivity {
     private Question.QuestionType currentQuestionType;
     private List<String> answers;
 
+    private LabelActivityPresenter presenter;
+
+    private ProgressBar progressBar;
+    private ImageView imageView;
     private TextView questionTitle;
     private EditText shortAnswer;
     private RadioGroup radioGroup;
     private Button submitButton;
-    private ProgressBar progressBar;
-    private LabelActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label);
+
+        this.presenter = new LabelActivityPresenter(this);
+        this.imageView = findViewById(R.id.labelSubject);
         this.questionTitle = findViewById(R.id.questionTitle);
         this.shortAnswer = findViewById(R.id.labelShortAnswer);
         this.radioGroup = findViewById(R.id.radioGroup);
@@ -56,14 +66,14 @@ public class LabelActivity extends AppCompatActivity {
             handleSubmit(this.currentQuestionType);
         });
 
-        initializeDataFromIntent(getIntent());
+        initializeDataFromIntent();
         displayQuestionView(questionIterator.next());
 
         this.presenter = new LabelActivityPresenter(this);
     }
 
-    private void initializeDataFromIntent(Intent intent) {
-        dataLabel = intent.getParcelableExtra(HomeActivity.DATA_LABEL_INTENT_TAG);
+    private void initializeDataFromIntent() {
+        dataLabel = getIntent().getParcelableExtra(HomeActivity.DATA_LABEL_INTENT_TAG);
 
         this.questionIterator = dataLabel.getQuestions().iterator();
         this.progressBar.setMax(dataLabel.getQuestions().size());
@@ -73,6 +83,8 @@ public class LabelActivity extends AppCompatActivity {
     private void displayQuestionView(Question question) {
         this.questionTitle.setText(question.getTitle());
         this.currentQuestionType = question.getQuestionType();
+
+        presenter.getImageFromFileName(question.getImageUrl(), this.imageView);
 
         switch (currentQuestionType) {
             case MULTIPLE_CHOICE: {
@@ -140,11 +152,12 @@ public class LabelActivity extends AppCompatActivity {
         int radioButtonId = radioGroup.getCheckedRadioButtonId();
         RadioButton radioButton = findViewById(radioButtonId);
 
+        // Clears the radio group between
+        this.radioGroup.removeAllViewsInLayout();
         try {
             answers.add(radioButton.getText().toString());
 
             this.progressBar.setProgress(this.progressBar.getProgress() + 1, true);
-
             return true;
         } catch (Exception err) {
             err.printStackTrace();
@@ -163,6 +176,16 @@ public class LabelActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    public void setImageBitMap(Bitmap bitmap){
+        imageView.setImageBitmap(bitmap);
+    }
+
+    public void launchRewardActivity() {
+        Intent intent = new Intent(this, RewardActivity.class);
+        intent.putExtra(VALUE_INTENT_TAG, dataLabel.getValue());
+        startActivity(intent);
     }
 
     private void submitAllAnswers() {

@@ -19,32 +19,27 @@ public class Question implements Parcelable {
     @Expose
     private QuestionType questionType;
 
+    @SerializedName("imageUrl")
+    @Expose
+    private String imageUrl;
+
     @SerializedName("answers")
     @Expose
     private ArrayList<String> answers;
 
-    public Question(String title, QuestionType questionType, ArrayList<String> answers) {
+    public Question(String title, QuestionType questionType, String imageUrl, ArrayList<String> answers) {
         this.title = title;
         this.questionType = questionType;
+        this.imageUrl = imageUrl;
         this.answers = answers;
     }
 
-    public void setTitle(String title) { this.title = title; }
-
-    public QuestionType getQuestionType() { return questionType; }
-
-    public void setQuestionType(QuestionType questionType) { this.questionType = questionType; }
-
-    public ArrayList<String> getAnswers () {
-        return answers;
-    }
-
-    public String getTitle () {
-        return title;
-    }
-
-    public void setAnswers (ArrayList < String > answers) {
-        this.answers = answers;
+    protected Question(Parcel in) {
+        this.title = in.readString();
+        int tmpQuestionType = in.readInt();
+        this.questionType = tmpQuestionType == -1 ? null : QuestionType.values()[tmpQuestionType];
+        this.imageUrl = in.readString();
+        this.answers = in.createStringArrayList();
     }
 
     public enum QuestionType {
@@ -53,6 +48,41 @@ public class Question implements Parcelable {
         IMAGE_DRAW
     }
 
+    public static String getTAG() {
+        return TAG;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public QuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(QuestionType questionType) {
+        this.questionType = questionType;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public ArrayList<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<String> answers) {
+        this.answers = answers;
+    }
 
     @Override
     public int describeContents() {
@@ -63,14 +93,8 @@ public class Question implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
         dest.writeInt(this.questionType == null ? -1 : this.questionType.ordinal());
+        dest.writeString(this.imageUrl);
         dest.writeStringList(this.answers);
-    }
-
-    protected Question(Parcel in) {
-        this.title = in.readString();
-        int tmpQuestionType = in.readInt();
-        this.questionType = tmpQuestionType == -1 ? null : QuestionType.values()[tmpQuestionType];
-        this.answers = in.createStringArrayList();
     }
 
     public static final Creator<Question> CREATOR = new Creator<Question>() {
