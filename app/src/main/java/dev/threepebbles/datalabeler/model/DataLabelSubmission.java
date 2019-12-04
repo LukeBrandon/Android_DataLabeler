@@ -17,9 +17,9 @@ public class DataLabelSubmission {
 
     @SerializedName("questionAnswers")
     @Expose
-    List<Integer> questionAnswers;
+    List<String> questionAnswers;
 
-    public DataLabelSubmission(int labelId, int userId, List<Integer> questionAnswers) {
+    public DataLabelSubmission(int labelId, int userId, List<String> questionAnswers) {
         this.labelId = labelId;
         this.userId = userId;
         this.questionAnswers = questionAnswers;
@@ -34,7 +34,7 @@ public class DataLabelSubmission {
 
     public void setUserId(int userId) { this.userId = userId; }
 
-    public List<Integer> getQuestionAnswers() { return questionAnswers; }
+    public List<String> getQuestionAnswers() { return questionAnswers; }
 
-    public void setQuestionAnswers(List<Integer> questionAnswers) { this.questionAnswers = questionAnswers; }
+    public void setQuestionAnswers(List<String> questionAnswers) { this.questionAnswers = questionAnswers; }
 }

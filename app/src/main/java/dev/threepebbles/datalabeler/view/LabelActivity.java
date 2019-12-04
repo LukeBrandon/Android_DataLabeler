@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import dev.threepebbles.datalabeler.R;
@@ -32,18 +34,19 @@ public class LabelActivity extends AppCompatActivity {
     private static final String TAG = "LabelActivity";
     public static final String VALUE_INTENT_TAG = "Value";
 
+    private DataLabel dataLabel;
+    private Iterator<Question> questionIterator;
+    private Question.QuestionType currentQuestionType;
+    private List<String> answers;
+
     private LabelActivityPresenter presenter;
 
     private ProgressBar progressBar;
     private ImageView imageView;
     private TextView questionTitle;
+    private EditText shortAnswer;
     private RadioGroup radioGroup;
     private Button submitButton;
-    private DataLabel data;
-    private List<Question> questions;
-    List<Integer> answers;
-
-    private int questionIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,99 +54,147 @@ public class LabelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_label);
 
         this.presenter = new LabelActivityPresenter(this);
-
-        this.questionIndex = 0;
-        this.answers = new ArrayList<>();
         this.imageView = findViewById(R.id.labelSubject);
-        this.progressBar = findViewById(R.id.progressBar);
         this.questionTitle = findViewById(R.id.questionTitle);
+        this.shortAnswer = findViewById(R.id.labelShortAnswer);
         this.radioGroup = findViewById(R.id.radioGroup);
         this.submitButton = findViewById(R.id.submitButton);
-        this.submitButton.setOnClickListener(v -> { submitAnswer(); });
+        this.progressBar = findViewById(R.id.progressBar);
+        this.answers = new ArrayList<>();
 
-        getDataFromIntent();
+        submitButton.setOnClickListener(v -> {
+            handleSubmit(this.currentQuestionType);
+        });
 
-        // Progress bar max is the number of questions to label
-        this.progressBar.setMax(this.questions.size());
+        initializeDataFromIntent();
+        displayQuestionView(questionIterator.next());
+
+        this.presenter = new LabelActivityPresenter(this);
     }
 
-    private void getDataFromIntent(){
-        Intent intent = getIntent();
-        data = intent.getParcelableExtra(HomeActivity.DATA_LABEL_INTENT_TAG);
-        this.questions = data.getQuestions();
+    private void initializeDataFromIntent() {
+        dataLabel = getIntent().getParcelableExtra(HomeActivity.DATA_LABEL_INTENT_TAG);
 
-        Log.d(TAG, "getDataFromIntent: data imageUrl is: " + data.getQuestions().get(questionIndex).getImageUrl());
-
-        presenter.getImageFromFileName(data.getQuestions().get(questionIndex).getImageUrl(), this.imageView);
-
-        updateUIForQuestionIndex();
+        this.questionIterator = dataLabel.getQuestions().iterator();
+        this.progressBar.setMax(dataLabel.getQuestions().size());
+        this.progressBar.setProgress(0);
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-    }
+    private void displayQuestionView(Question question) {
+        this.questionTitle.setText(question.getTitle());
+        this.currentQuestionType = question.getQuestionType();
 
-    private void submitAnswer(){
-        // ID is set in the updateUIForQuestionIndex() function to be the index of the button (0 indexed)
-        answers.add(radioGroup.getCheckedRadioButtonId());
+        presenter.getImageFromFileName(question.getImageUrl(), this.imageView);
 
-        // If this was the last question
-        if(this.questionIndex == this.questions.size() - 1) {
-            DataLabelSubmission submission = new DataLabelSubmission(data.getId(), SharedPreferencesHandler.getStoredAccountId(this), answers);
-            presenter.postAnswer(submission);
-
-            Log.d(TAG, "submitAnswer: answers when submitting is: " + answers.toString());
-
-            launchRewardActivity();
-            // Finishing removes activity from back stack
-            finish();
-
-        // There are still more questions to this DataLabel
-        } else {
-
-            questionIndex++;
-            updateUIForQuestionIndex();
+        switch (currentQuestionType) {
+            case MULTIPLE_CHOICE: {
+                displayRadioButtons(question.getAnswers());
+                break;
+            }
+            case SHORT_ANSWER:
+                displayEditText();
+                break;
+            case IMAGE_DRAW:
+                break;
+            default:
+                break;
         }
     }
 
-    /*
-     * Updates the questionTitle, and radio buttons based on questionIndex
-     *      - If going to next question, should update the UI to show next question
-     */
-    private void updateUIForQuestionIndex(){
-        Question questionToDisplay = this.questions.get(questionIndex);
+    private void displayRadioButtons(List<String> answers) {
+        this.shortAnswer.setVisibility(View.INVISIBLE);
+        this.radioGroup.setVisibility(View.VISIBLE);
+        this.radioGroup.removeAllViews();
+        this.radioGroup.clearCheck();
 
-        // Set display for question and progress bar
-        this.progressBar.setProgress(this.questionIndex, true);
-        this.questionTitle.setText(questionToDisplay.getTitle());
-        presenter.getImageFromFileName(questionToDisplay.getImageUrl(), this.imageView);
-
-        // Clears the radio group between
-        this.radioGroup.removeAllViewsInLayout();
-
-        // Defines the margins that are going to be applied to all of the radio buttons
         RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 15, 0, 15);
 
-        for(int i = 0; i < questionToDisplay.getAnswers().size(); i ++){
+        for (int i = 0; i < answers.size(); i++) {
             RadioButton radioButton = new RadioButton(this);
             radioButton.setId(i);
             radioButton.setLayoutParams(params);
-            radioButton.setText(questionToDisplay.getAnswers().get(i));
+            radioButton.setText(answers.get(i));
 
             this.radioGroup.addView(radioButton);
         }
+    }
+
+    private void displayEditText() {
+        this.shortAnswer.setVisibility(View.VISIBLE);
+        this.radioGroup.setVisibility(View.INVISIBLE);
+    }
+
+    private void handleSubmit(Question.QuestionType questionType) {
+        boolean canContinue = false;
+
+        switch (questionType) {
+            case MULTIPLE_CHOICE:
+                canContinue = submitMultipleChoiceAnswer();
+                break;
+            case SHORT_ANSWER:
+                canContinue = submitShortAnswer();
+                break;
+            case IMAGE_DRAW:
+                break;
+            default:
+                break;
+        }
+
+        if (questionIterator.hasNext() && canContinue) {
+            displayQuestionView(questionIterator.next());
+        } else if (!questionIterator.hasNext() && canContinue) {
+            submitAllAnswers();
+        }
+    }
+
+    private boolean submitMultipleChoiceAnswer() {
+        int radioButtonId = radioGroup.getCheckedRadioButtonId();
+        RadioButton radioButton = findViewById(radioButtonId);
+
+        // Clears the radio group between
+        this.radioGroup.removeAllViewsInLayout();
+        try {
+            answers.add(radioButton.getText().toString());
+
+            this.progressBar.setProgress(this.progressBar.getProgress() + 1, true);
+            return true;
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
+
+        return false;
+    }
+
+    private boolean submitShortAnswer() {
+        String answer = shortAnswer.getText().toString();
+
+        if (!answer.isEmpty()) {
+            answers.add(answer);
+
+            return true;
+        }
+
+        return false;
     }
 
     public void setImageBitMap(Bitmap bitmap){
         imageView.setImageBitmap(bitmap);
     }
 
-    private void launchRewardActivity(){
+    public void launchRewardActivity() {
         Intent intent = new Intent(this, RewardActivity.class);
-        intent.putExtra(VALUE_INTENT_TAG, data.getValue());
+        intent.putExtra(VALUE_INTENT_TAG, dataLabel.getValue());
         startActivity(intent);
+    }
+
+    private void submitAllAnswers() {
+        DataLabelSubmission dataLabelSubmission = new DataLabelSubmission(
+                this.dataLabel.getId(),
+                SharedPreferencesHandler.getStoredAccountId(this),
+                answers);
+
+        presenter.postAnswer(dataLabelSubmission);
     }
 
     public void showSuccessMessage(){
@@ -153,6 +204,4 @@ public class LabelActivity extends AppCompatActivity {
     public void showInternetFailed(){
         Toast.makeText(getApplicationContext(), "We are having trouble reaching the Internet, please check your connection and try again!", Toast.LENGTH_SHORT).show();
     }
-
-
 }

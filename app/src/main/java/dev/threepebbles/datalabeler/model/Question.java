@@ -2,7 +2,6 @@ package dev.threepebbles.datalabeler.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -18,7 +17,7 @@ public class Question implements Parcelable {
 
     @SerializedName("type")
     @Expose
-    private Type type;
+    private QuestionType questionType;
 
     @SerializedName("imageUrl")
     @Expose
@@ -28,24 +27,61 @@ public class Question implements Parcelable {
     @Expose
     private ArrayList<String> answers;
 
-    public Question(String title, Type type, String imageUrl, ArrayList<String> answers) {
+    public Question(String title, QuestionType questionType, String imageUrl, ArrayList<String> answers) {
         this.title = title;
-        this.type = type;
+        this.questionType = questionType;
         this.imageUrl = imageUrl;
         this.answers = answers;
     }
 
     protected Question(Parcel in) {
-        title = in.readString();
-        imageUrl = in.readString();
-        answers = in.createStringArrayList();
+        this.title = in.readString();
+        int tmpQuestionType = in.readInt();
+        this.questionType = tmpQuestionType == -1 ? null : QuestionType.values()[tmpQuestionType];
+        this.imageUrl = in.readString();
+        this.answers = in.createStringArrayList();
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(imageUrl);
-        dest.writeStringList(answers);
+    public enum QuestionType {
+        MULTIPLE_CHOICE,
+        SHORT_ANSWER,
+        IMAGE_DRAW
+    }
+
+    public static String getTAG() {
+        return TAG;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public QuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(QuestionType questionType) {
+        this.questionType = questionType;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public ArrayList<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<String> answers) {
+        this.answers = answers;
     }
 
     @Override
@@ -53,10 +89,18 @@ public class Question implements Parcelable {
         return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeInt(this.questionType == null ? -1 : this.questionType.ordinal());
+        dest.writeString(this.imageUrl);
+        dest.writeStringList(this.answers);
+    }
+
     public static final Creator<Question> CREATOR = new Creator<Question>() {
         @Override
-        public Question createFromParcel(Parcel in) {
-            return new Question(in);
+        public Question createFromParcel(Parcel source) {
+            return new Question(source);
         }
 
         @Override
@@ -64,29 +108,4 @@ public class Question implements Parcelable {
             return new Question[size];
         }
     };
-
-    public void setTitle(String title) { this.title = title; }
-    public String getTitle () {
-        return title;
-    }
-
-    public Type getType() { return type; }
-    public void setType(Type type) { this.type = type; }
-
-    public ArrayList<String> getAnswers () {
-        return answers;
-    }
-    public void setAnswers (ArrayList < String > answers) {
-        this.answers = answers;
-    }
-
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
-
-    public enum Type {
-        MULTIPLE_CHOICE,
-        SHORT_ANSWER,
-        IMAGE_DRAW
-    }
-
 }
