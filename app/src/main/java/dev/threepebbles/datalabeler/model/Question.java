@@ -20,48 +20,31 @@ public class Question implements Parcelable {
     @Expose
     private Type type;
 
+    @SerializedName("imageUrl")
+    @Expose
+    private String imageUrl;
+
     @SerializedName("answers")
     @Expose
     private ArrayList<String> answers;
 
-    public Question(String title, Type type, ArrayList<String> answers) {
+    public Question(String title, Type type, String imageUrl, ArrayList<String> answers) {
         this.title = title;
         this.type = type;
+        this.imageUrl = imageUrl;
         this.answers = answers;
     }
 
     protected Question(Parcel in) {
         title = in.readString();
+        imageUrl = in.readString();
         answers = in.createStringArrayList();
-    }
-
-    public void setTitle(String title) { this.title = title; }
-
-    public Type getType() { return type; }
-
-    public void setType(Type type) { this.type = type; }
-
-    public ArrayList<String> getAnswers () {
-        return answers;
-    }
-
-    public String getTitle () {
-        return title;
-    }
-
-    public void setAnswers (ArrayList < String > answers) {
-        this.answers = answers;
-    }
-
-    public enum Type {
-        MULTIPLE_CHOICE,
-        SHORT_ANSWER,
-        IMAGE_DRAW
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
+        dest.writeString(imageUrl);
         dest.writeStringList(answers);
     }
 
@@ -81,5 +64,29 @@ public class Question implements Parcelable {
             return new Question[size];
         }
     };
+
+    public void setTitle(String title) { this.title = title; }
+    public String getTitle () {
+        return title;
+    }
+
+    public Type getType() { return type; }
+    public void setType(Type type) { this.type = type; }
+
+    public ArrayList<String> getAnswers () {
+        return answers;
+    }
+    public void setAnswers (ArrayList < String > answers) {
+        this.answers = answers;
+    }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public enum Type {
+        MULTIPLE_CHOICE,
+        SHORT_ANSWER,
+        IMAGE_DRAW
+    }
 
 }
