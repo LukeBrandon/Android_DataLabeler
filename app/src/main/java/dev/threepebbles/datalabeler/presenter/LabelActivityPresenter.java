@@ -52,6 +52,7 @@ public class LabelActivityPresenter {
                     view.showSuccessMessage();
 
                     // Here because needs to wait for response on submission
+                    // TEST
                     view.launchRewardActivity();
                     view.finish();
                 }
