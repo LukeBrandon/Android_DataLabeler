@@ -50,6 +50,9 @@ public class LabelActivityPresenter {
                 boolean wasSuccess = response.body().getSuccess();
                 if(wasSuccess) {
                     view.showSuccessMessage();
+
+                    // Here because needs to wait for response on submission
+                    view.launchRewardActivity();
                     view.finish();
                 }
             }
