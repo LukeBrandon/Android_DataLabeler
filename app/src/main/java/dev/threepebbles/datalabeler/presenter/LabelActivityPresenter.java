@@ -27,6 +27,7 @@ public class LabelActivityPresenter {
                 boolean wasSuccess = response.body().getSuccess();
                 if(wasSuccess) {
                     view.showSuccessMessage();
+                    view.finish();
                 }
             }
 

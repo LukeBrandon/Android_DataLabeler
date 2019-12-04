@@ -2,7 +2,6 @@ package dev.threepebbles.datalabeler.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -148,7 +147,7 @@ public class LabelActivity extends AppCompatActivity {
 
             return true;
         } catch (Exception err) {
-
+            err.printStackTrace();
         }
 
         return false;
@@ -173,7 +172,6 @@ public class LabelActivity extends AppCompatActivity {
                 answers);
 
         presenter.postAnswer(dataLabelSubmission);
-        finish();
     }
 
     public void showSuccessMessage(){
