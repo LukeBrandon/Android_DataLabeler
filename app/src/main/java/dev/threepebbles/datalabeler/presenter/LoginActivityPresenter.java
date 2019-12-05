@@ -1,12 +1,15 @@
 package dev.threepebbles.datalabeler.presenter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import dev.threepebbles.datalabeler.model.Post;
-import dev.threepebbles.datalabeler.remote.APIService;
-import dev.threepebbles.datalabeler.remote.APIUtils;
-import dev.threepebbles.datalabeler.sharedPreferences.SharedPreferencesHandler;
+import dev.threepebbles.datalabeler.utils.APIService;
+import dev.threepebbles.datalabeler.utils.APIUtils;
+import dev.threepebbles.datalabeler.utils.SharedPreferencesHandler;
 import dev.threepebbles.datalabeler.view.LoginActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,6 +17,7 @@ import retrofit2.Response;
 
 public class LoginActivityPresenter {
     private static final String TAG = "LoginActivityPresenter";
+    private static final String FCM_TOPIC_PREFIX = "newData_userId";
 
     Context context;
     LoginActivity view;
@@ -36,6 +40,10 @@ public class LoginActivityPresenter {
                     // Save the accountId
                     SharedPreferencesHandler.saveAccountId(context, accountId);
 
+                    // Subscribe to FCM
+                    subscribeToFCM(SharedPreferencesHandler.getStoredAccountId(context));
+
+                    // Update UI
                     view.setSpinnerVisiblity(View.INVISIBLE);
                     view.launchHomeActivity();
                 } else {
@@ -49,6 +57,14 @@ public class LoginActivityPresenter {
                 view.showInternetFailed();
             }
         });
+    }
+
+    private void subscribeToFCM(int accountId){
+        // This sets up the firebase messaging by subscribing to the topic for this user
+        FirebaseMessaging.getInstance().subscribeToTopic(FCM_TOPIC_PREFIX + accountId);
+
+        Log.d(TAG, "onResponse: firebase token is: " + SharedPreferencesHandler.getStoredFirebaseToken(context));
+        Log.d(TAG, "onNewToken: subscribed to topic: " + FCM_TOPIC_PREFIX + accountId);
     }
 
 }

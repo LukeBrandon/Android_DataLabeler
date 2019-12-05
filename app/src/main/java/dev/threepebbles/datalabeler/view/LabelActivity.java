@@ -3,7 +3,6 @@ package dev.threepebbles.datalabeler.view;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,8 +16,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.storage.StorageReference;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +25,7 @@ import dev.threepebbles.datalabeler.model.DataLabel;
 import dev.threepebbles.datalabeler.model.DataLabelSubmission;
 import dev.threepebbles.datalabeler.model.Question;
 import dev.threepebbles.datalabeler.presenter.LabelActivityPresenter;
-import dev.threepebbles.datalabeler.sharedPreferences.SharedPreferencesHandler;
+import dev.threepebbles.datalabeler.utils.SharedPreferencesHandler;
 
 public class LabelActivity extends AppCompatActivity {
     private static final String TAG = "LabelActivity";

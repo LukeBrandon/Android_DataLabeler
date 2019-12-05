@@ -1,27 +1,15 @@
 package dev.threepebbles.datalabeler.presenter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
 import dev.threepebbles.datalabeler.contact.MainContract;
 import dev.threepebbles.datalabeler.model.DataLabel;
-import dev.threepebbles.datalabeler.remote.APIService;
-import dev.threepebbles.datalabeler.remote.APIUtils;
-import dev.threepebbles.datalabeler.sharedPreferences.SharedPreferencesHandler;
+import dev.threepebbles.datalabeler.utils.APIService;
+import dev.threepebbles.datalabeler.utils.APIUtils;
+import dev.threepebbles.datalabeler.utils.SharedPreferencesHandler;
 import dev.threepebbles.datalabeler.view.HomeActivity;
 import retrofit2.Call;
 import retrofit2.Callback;

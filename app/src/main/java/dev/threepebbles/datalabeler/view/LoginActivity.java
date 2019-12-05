@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.presenter.LoginActivityPresenter;
-import dev.threepebbles.datalabeler.remote.APIService;
-import dev.threepebbles.datalabeler.remote.APIUtils;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";

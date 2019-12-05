@@ -2,8 +2,8 @@ package dev.threepebbles.datalabeler.presenter;
 
 
 import dev.threepebbles.datalabeler.model.User;
-import dev.threepebbles.datalabeler.remote.APIService;
-import dev.threepebbles.datalabeler.remote.APIUtils;
+import dev.threepebbles.datalabeler.utils.APIService;
+import dev.threepebbles.datalabeler.utils.APIUtils;
 import dev.threepebbles.datalabeler.view.RewardActivity;
 import retrofit2.Call;
 import retrofit2.Callback;

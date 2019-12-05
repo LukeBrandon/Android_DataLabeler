@@ -1,4 +1,4 @@
-package dev.threepebbles.datalabeler.remote;
+package dev.threepebbles.datalabeler.utils;
 
 import java.util.List;
 
