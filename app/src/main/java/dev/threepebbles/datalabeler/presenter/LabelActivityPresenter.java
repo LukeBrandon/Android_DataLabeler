@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.google.firebase.storage.FirebaseStorage;
@@ -66,6 +67,8 @@ public class LabelActivityPresenter {
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, imageView.getWidth(), imageView.getHeight(), false);
             view.setImageBitMap(scaledBitmap);
+
+            view.setSpinnerVisiblity(View.INVISIBLE);
 
         }).addOnFailureListener(exception -> {
 

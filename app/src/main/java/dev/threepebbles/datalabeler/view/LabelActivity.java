@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -38,6 +39,7 @@ public class LabelActivity extends AppCompatActivity {
 
     private LabelActivityPresenter presenter;
 
+    private FrameLayout spinner;
     private ProgressBar progressBar;
     private ImageView imageView;
     private TextView questionTitle;
@@ -51,6 +53,8 @@ public class LabelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_label);
 
         this.presenter = new LabelActivityPresenter(this);
+
+        this.spinner = findViewById(R.id.progress_overlay);
         this.imageView = findViewById(R.id.labelSubject);
         this.questionTitle = findViewById(R.id.questionTitle);
         this.shortAnswer = findViewById(R.id.labelShortAnswer);
@@ -62,6 +66,8 @@ public class LabelActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> {
             handleSubmit(this.currentQuestionType);
         });
+
+        setSpinnerVisiblity(View.VISIBLE);
 
         initializeDataFromIntent();
         displayQuestionView(questionIterator.next());
@@ -200,5 +206,16 @@ public class LabelActivity extends AppCompatActivity {
 
     public void showInternetFailed(){
         Toast.makeText(getApplicationContext(), "We are having trouble reaching the Internet, please check your connection and try again!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void setSpinnerVisiblity(int visiblity) {
+        if(visiblity == View.VISIBLE){
+            this.imageView.setVisibility(View.INVISIBLE);
+            this.spinner.setVisibility(View.VISIBLE);
+        } else {
+            this.imageView.setVisibility(View.VISIBLE);
+            this.spinner.setVisibility(View.INVISIBLE);
+        }
+
     }
 }

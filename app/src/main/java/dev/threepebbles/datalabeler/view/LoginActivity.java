@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         presenter = new LoginActivityPresenter(this);
-        this.spinner = findViewById(R.id.progress_overlay);
+        spinner = findViewById(R.id.progress_overlay);
 
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
