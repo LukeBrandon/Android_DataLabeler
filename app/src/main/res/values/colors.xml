@@ -5,4 +5,5 @@
     <color name="colorAccent">#83b9ff</color>
     <color name="goodAccent">#00b248</color>
     <color name="backgroundLight">#eff1f3</color>
+    <color name="lightGray">#94a19e</color>
 </resources>

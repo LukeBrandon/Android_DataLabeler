@@ -97,7 +97,7 @@
     <EditText
         android:id="@+id/labelShortAnswer"
         android:gravity="top|left"
-        android:background="@android:color/transparent"
+        android:outlineAmbientShadowColor="@color/lightGray"
         android:inputType="textMultiLine"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -105,6 +105,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
+        android:focusedByDefault="true"
         app:layout_constraintBottom_toTopOf="@+id/submitButton"
         app:layout_constraintEnd_toEndOf="@+id/radioGroup"
         app:layout_constraintStart_toStartOf="@+id/radioGroup"
