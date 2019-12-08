@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.presenter.LoginActivityPresenter;
-import dev.threepebbles.datalabeler.remote.APIService;
-import dev.threepebbles.datalabeler.remote.APIUtils;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -31,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         presenter = new LoginActivityPresenter(this);
-        this.spinner = findViewById(R.id.progress_overlay);
+        spinner = findViewById(R.id.progress_overlay);
 
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);

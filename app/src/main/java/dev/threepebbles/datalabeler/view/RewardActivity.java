@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import dev.threepebbles.datalabeler.R;
 import dev.threepebbles.datalabeler.presenter.RewardActivityPresenter;
-import dev.threepebbles.datalabeler.sharedPreferences.SharedPreferencesHandler;
+import dev.threepebbles.datalabeler.utils.SharedPreferencesHandler;
 
 public class RewardActivity extends AppCompatActivity {
     private static final String TAG = "RewardActivity";

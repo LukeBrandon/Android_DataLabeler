@@ -4,22 +4,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import dev.threepebbles.datalabeler.model.DataLabelSubmission;
 import dev.threepebbles.datalabeler.model.SimpleResponse;
-import dev.threepebbles.datalabeler.remote.APIService;
-import dev.threepebbles.datalabeler.remote.APIUtils;
-import dev.threepebbles.datalabeler.remote.FirebaseAuthHandler;
+import dev.threepebbles.datalabeler.utils.APIService;
+import dev.threepebbles.datalabeler.utils.APIUtils;
 import dev.threepebbles.datalabeler.view.LabelActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +46,6 @@ public class LabelActivityPresenter {
                     view.showSuccessMessage();
 
                     // Here because needs to wait for response on submission
-                    // TEST
                     view.launchRewardActivity();
                     view.finish();
                 }
@@ -74,6 +67,8 @@ public class LabelActivityPresenter {
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, imageView.getWidth(), imageView.getHeight(), false);
             view.setImageBitMap(scaledBitmap);
+
+            view.setSpinnerVisiblity(View.INVISIBLE);
 
         }).addOnFailureListener(exception -> {
 
