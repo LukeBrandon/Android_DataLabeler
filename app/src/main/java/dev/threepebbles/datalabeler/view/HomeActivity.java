@@ -8,7 +8,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -25,9 +27,10 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
 
     private HomeActivityPresenter presenter;
     private RecyclerView recyclerView;
+    private ImageButton settingButton;
+    private TextView emptyTextView;
     public ItemAdapter adapter;
     public List<DataLabel> dataLabels;
-    private ImageButton settingButton;
     public SwipeRefreshLayout mySwipeRefreshLayout;
 
     @Override
@@ -37,6 +40,7 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
 
         presenter = new HomeActivityPresenter(this);
 
+        emptyTextView = findViewById(R.id.emptyTextView);
         settingButton = findViewById(R.id.settingsButton);
         settingButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, SettingsActivity.class);
@@ -73,7 +77,10 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
     }
 
     public void updateDataLabels(List<DataLabel> labels) {
-        if(labels != null) {
+        if(labels!= null && labels.size() > 0) {
+            this.recyclerView.setVisibility(View.VISIBLE);
+            this.emptyTextView.setVisibility(View.INVISIBLE);
+
             Log.d(TAG, "updateDataLabels: setting dataLabels to be: " + labels.toString());
             this.dataLabels = labels;
 
@@ -89,6 +96,9 @@ public class HomeActivity extends AppCompatActivity implements MainContract.View
             this.adapter.notifyDataSetChanged();
         } else {
             Toast.makeText(getApplicationContext(), "Nothing for you to label right now, check back later", Toast.LENGTH_LONG);
+
+            this.recyclerView.setVisibility(View.INVISIBLE);
+            this.emptyTextView.setVisibility(View.VISIBLE);
         }
     }
 
